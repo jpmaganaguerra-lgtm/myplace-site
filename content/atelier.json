@@ -1,0 +1,29 @@
+[
+  {
+    "title": "Gobierno de datos en portafolios de hospitalidad multi-activo",
+    "slug": "gobierno-de-datos-en-portafolios-hospitality",
+    "cover": "",
+    "excerpt": "Por qué la mayoría de los portafolios hoteleros no tienen un problema de tecnología, sino un problema de gobierno de datos — y qué cambia cuando sí lo tienen.",
+    "tag": "Tecnología",
+    "date": "2026-08-10T00:00:00.000Z",
+    "published": true
+  },
+  {
+    "title": "Revenue management institucional frente al modelo artesanal",
+    "slug": "revenue-management-institucional-vs-artesanal",
+    "cover": "",
+    "excerpt": "La diferencia entre ajustar tarifas por intuición y operar un sistema de revenue management real — y por qué esa diferencia se nota primero en el NOI.",
+    "tag": "Revenue Management",
+    "date": "2026-08-03T00:00:00.000Z",
+    "published": true
+  },
+  {
+    "title": "Qué determina si un edificio residencial es viable como activo de hospitalidad",
+    "slug": "conversion-de-edificios-residenciales-a-hospitalidad",
+    "cover": "",
+    "excerpt": "No toda propiedad residencial es candidata para convertirse en un activo de hospitalidad rentable. Estas son las variables que realmente deciden la viabilidad.",
+    "tag": "Conversión de activos",
+    "date": "2026-07-27T00:00:00.000Z",
+    "published": true
+  }
+]
