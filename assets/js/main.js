@@ -146,3 +146,116 @@
         if (atelierEmpty) atelierEmpty.style.display = 'block';
       });
   }
+
+  /* ── Portfolio marquee ── */
+  /* Lee /content/portfolio.json (separado por completo de este componente:
+     agregar, quitar, reordenar o cambiar una propiedad no toca este código).
+     Interacción: scroll-snap nativo (drag táctil / trackpad ya funciona solo),
+     más drag-to-scroll con mouse para desktop, flechas, dots y teclado. */
+  const pfTrack = document.getElementById('pf-track');
+  if (pfTrack) {
+    const pfPrev = document.getElementById('pf-prev');
+    const pfNext = document.getElementById('pf-next');
+    const pfDots = document.getElementById('pf-dots');
+    const pfEmpty = document.getElementById('pf-empty');
+    const pfMarquee = document.getElementById('pf-marquee');
+
+    fetch('/content/portfolio.json')
+      .then(res => (res.ok ? res.json() : []))
+      .then(properties => {
+        if (!Array.isArray(properties) || properties.length === 0) {
+          if (pfMarquee) pfMarquee.style.display = 'none';
+          if (pfEmpty) pfEmpty.style.display = 'block';
+          return;
+        }
+        renderPortfolio(properties);
+      })
+      .catch(() => {
+        if (pfMarquee) pfMarquee.style.display = 'none';
+        if (pfEmpty) pfEmpty.style.display = 'block';
+      });
+
+    function renderPortfolio(properties) {
+      properties.forEach((p) => {
+        const card = document.createElement('a');
+        card.href = p.url;
+        card.className = 'pf-card';
+        card.setAttribute('target', '_blank');
+        card.setAttribute('rel', 'noopener');
+        card.innerHTML = `
+          <div class="pf-card-image">
+            <img src="${p.image}" alt="${p.imageAlt || p.name}" loading="lazy" width="380" height="507">
+          </div>
+          <p class="pf-card-category">${p.category || ''}</p>
+          <p class="pf-card-name">${p.name}</p>
+          <p class="pf-card-location">${p.location || ''}</p>
+        `;
+        pfTrack.appendChild(card);
+
+        const dot = document.createElement('button');
+        dot.className = 'pf-dot';
+        dot.setAttribute('aria-label', `Ir a ${p.name}`);
+        dot.addEventListener('click', () => {
+          card.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+        });
+        pfDots.appendChild(dot);
+      });
+
+      const cards = Array.from(pfTrack.querySelectorAll('.pf-card'));
+      const dots = Array.from(pfDots.querySelectorAll('.pf-dot'));
+
+      // Preload solo la primera imagen — es la única con valor real en el LCP
+      cards[0]?.querySelector('img')?.setAttribute('loading', 'eager');
+
+      const pfObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          const idx = cards.indexOf(entry.target);
+          if (entry.intersectionRatio > 0.6) {
+            entry.target.classList.add('pf-active');
+            dots.forEach(d => d.classList.remove('pf-dot-active'));
+            if (dots[idx]) dots[idx].classList.add('pf-dot-active');
+          } else {
+            entry.target.classList.remove('pf-active');
+          }
+        });
+      }, { root: pfTrack, threshold: [0, 0.6, 1] });
+      cards.forEach(c => pfObserver.observe(c));
+
+      function step(direction) {
+        const active = cards.find(c => c.classList.contains('pf-active')) || cards[0];
+        const idx = cards.indexOf(active);
+        const target = cards[Math.min(cards.length - 1, Math.max(0, idx + direction))];
+        target.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+      }
+      pfPrev.addEventListener('click', () => step(-1));
+      pfNext.addEventListener('click', () => step(1));
+
+      pfTrack.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight') { e.preventDefault(); step(1); }
+        if (e.key === 'ArrowLeft') { e.preventDefault(); step(-1); }
+      });
+
+      // Drag-to-scroll con mouse en desktop (touch ya funciona nativo)
+      let isDown = false, startX = 0, startScroll = 0, moved = false;
+      pfTrack.addEventListener('pointerdown', (e) => {
+        if (e.pointerType === 'touch') return;
+        isDown = true; moved = false;
+        pfTrack.classList.add('dragging');
+        startX = e.clientX;
+        startScroll = pfTrack.scrollLeft;
+        pfTrack.setPointerCapture(e.pointerId);
+      });
+      pfTrack.addEventListener('pointermove', (e) => {
+        if (!isDown) return;
+        const dx = e.clientX - startX;
+        if (Math.abs(dx) > 4) moved = true;
+        pfTrack.scrollLeft = startScroll - dx;
+      });
+      const endDrag = () => { isDown = false; pfTrack.classList.remove('dragging'); };
+      pfTrack.addEventListener('pointerup', endDrag);
+      pfTrack.addEventListener('pointerleave', endDrag);
+      pfTrack.addEventListener('click', (e) => {
+        if (moved) { e.preventDefault(); moved = false; }
+      }, true);
+    }
+  }

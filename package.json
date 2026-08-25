@@ -4,7 +4,7 @@
   "description": "Sitio institucional B2B de MYPLACE — Institutional Hospitality Platform",
   "private": true,
   "scripts": {
-    "content:build": "node scripts/build-atelier.mjs",
+    "content:build": "node scripts/build-atelier.mjs && node scripts/build-portfolio.mjs",
     "build": "npm run content:build"
   },
   "keywords": [],

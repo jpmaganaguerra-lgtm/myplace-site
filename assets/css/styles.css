@@ -710,6 +710,125 @@
     .atelier-header { flex-direction: column; align-items: flex-start; gap: 20px; }
   }
 
+  /* ── Portfolio (marquee page) ── */
+  .pf-intro {
+    background: var(--ink); color: var(--bone);
+    padding: 200px 60px 100px; text-align: center;
+  }
+  .pf-eyebrow {
+    font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase;
+    color: rgba(245,240,232,0.5); margin-bottom: 20px;
+  }
+  .pf-title {
+    font-family: var(--font-serif); font-weight: 300;
+    font-size: clamp(40px, 6vw, 84px); line-height: 1;
+    letter-spacing: -0.02em; color: var(--bone); margin-bottom: 24px;
+  }
+  .pf-subtitle {
+    font-family: var(--font-sans); font-weight: 300; font-size: 16px;
+    line-height: 1.7; color: rgba(245,240,232,0.55);
+    max-width: 480px; margin: 0 auto;
+  }
+
+  .pf-marquee-section {
+    background: var(--ink); padding: 40px 0 140px;
+    overflow: hidden;
+  }
+  .pf-marquee {
+    position: relative;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .pf-track {
+    display: flex; align-items: center;
+    gap: 32px;
+    padding: 0 calc(50vw - 190px);
+    overflow-x: auto; overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    cursor: grab;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .pf-track::-webkit-scrollbar { display: none; }
+  .pf-track.dragging { cursor: grabbing; scroll-snap-type: none; scroll-behavior: auto; }
+  .pf-track:focus-visible { outline: 1px solid rgba(245,240,232,0.4); outline-offset: 8px; }
+
+  .pf-card {
+    flex: 0 0 auto;
+    width: 380px;
+    scroll-snap-align: center;
+    text-decoration: none; color: inherit;
+    opacity: 0.35; transform: scale(0.88);
+    transition: opacity 0.5s var(--ease-out), transform 0.5s var(--ease-out);
+    user-select: none;
+    -webkit-user-drag: none;
+  }
+  .pf-card.pf-active { opacity: 1; transform: scale(1); }
+  .pf-card-image {
+    aspect-ratio: 3/4; overflow: hidden; background: var(--charcoal);
+    margin-bottom: 24px; position: relative;
+  }
+  .pf-card-image img {
+    width: 100%; height: 100%; object-fit: cover; display: block;
+    pointer-events: none;
+    transition: transform 0.8s var(--ease-out);
+  }
+  .pf-card.pf-active:hover .pf-card-image img { transform: scale(1.03); }
+  .pf-card-category {
+    font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--sand); margin-bottom: 10px; text-align: center;
+  }
+  .pf-card-name {
+    font-family: var(--font-serif); font-weight: 300;
+    font-size: clamp(20px, 2vw, 26px); color: var(--bone);
+    text-align: center; margin-bottom: 6px; line-height: 1.15;
+  }
+  .pf-card-location {
+    font-size: 12px; letter-spacing: 0.04em;
+    color: rgba(245,240,232,0.45); text-align: center;
+  }
+
+  .pf-arrow {
+    position: absolute; top: 42%; z-index: 3;
+    width: 44px; height: 44px; border-radius: 50%;
+    border: 1px solid rgba(245,240,232,0.25);
+    background: rgba(13,12,10,0.4);
+    color: var(--bone); font-size: 16px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    transition: border-color 0.3s var(--ease-out), background 0.3s var(--ease-out), transform 0.3s var(--ease-out);
+  }
+  .pf-arrow:hover { border-color: rgba(245,240,232,0.6); background: rgba(13,12,10,0.7); transform: translateY(-1px); }
+  .pf-arrow-prev { left: 24px; }
+  .pf-arrow-next { right: 24px; }
+
+  .pf-dots {
+    display: flex; justify-content: center; gap: 8px; margin-top: 48px;
+  }
+  .pf-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: rgba(245,240,232,0.25); border: none; padding: 0;
+    cursor: pointer; transition: background 0.3s var(--ease-out), transform 0.3s var(--ease-out);
+  }
+  .pf-dot.pf-dot-active { background: var(--sand); transform: scale(1.4); }
+
+  .pf-empty {
+    text-align: center; color: rgba(245,240,232,0.4);
+    font-size: 14px; padding: 60px 40px 0; max-width: 440px; margin: 0 auto;
+  }
+
+  @media (max-width: 900px) {
+    .pf-intro { padding: 160px 32px 80px; }
+    .pf-card { width: 300px; }
+    .pf-track { padding: 0 calc(50vw - 150px); }
+    .pf-arrow { display: none; }
+  }
+  @media (max-width: 600px) {
+    .pf-intro { padding: 140px 24px 64px; }
+    .pf-card { width: 78vw; }
+    .pf-track { padding: 0 11vw; gap: 20px; }
+  }
+
   /* ── Atelier: article page ── */
   .atelier-article-hero {
     position: relative; height: 56vh; min-height: 420px;

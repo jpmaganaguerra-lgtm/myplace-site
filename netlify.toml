@@ -14,6 +14,11 @@
     Cache-Control = "public, max-age=0, must-revalidate"
 
 [[headers]]
+  for = "/content/portfolio.json"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
   for = "/atelier/*"
   [headers.values]
     Cache-Control = "public, max-age=0, must-revalidate"
