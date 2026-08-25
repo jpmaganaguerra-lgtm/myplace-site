@@ -1,1 +1,692 @@
-[]
+[
+  {
+    "id": "condesa-01",
+    "name": "Condesa 01",
+    "location": "Ciudad de México",
+    "category": "Departamento",
+    "image": "",
+    "imageAlt": "Condesa 01, Ciudad de México — MYPLACE",
+    "url": "https://www.airbnb.mx/rooms/22013990",
+    "listingTitle": "Galería The Gallery by MyPlace - Hospedaje Premium Condesa"
+  },
+  {
+    "id": "condesa-02",
+    "name": "Condesa 02",
+    "location": "Ciudad de México",
+    "category": "Departamento",
+    "image": "",
+    "imageAlt": "Condesa 02, Ciudad de México — MYPLACE",
+    "url": "https://www.airbnb.mx/rooms/21512492",
+    "listingTitle": "Arte y Comodidad @ La Condesa"
+  },
+  {
+    "id": "condesa-03",
+    "name": "Condesa 03",
+    "location": "Ciudad de México",
+    "category": "Departamento",
+    "image": "",
+    "imageAlt": "Condesa 03, Ciudad de México — MYPLACE",
+    "url": "https://www.airbnb.mx/rooms/22015445",
+    "listingTitle": "Viviendo el Arte Mexicano en La Condesa"
+  },
+  {
+    "id": "condesa-04",
+    "name": "Condesa 04",
+    "location": "Ciudad de México",
+    "category": "Departamento",
+    "image": "",
+    "imageAlt": "Condesa 04, Ciudad de México — MYPLACE",
+    "url": "https://www.airbnb.mx/rooms/22879032",
+    "listingTitle": "Acogedor departamento! Explora de cerca La Condesa"
+  },
+  {
+    "id": "condesa-05-b",
+    "name": "Condesa 05 B",
+    "location": "Ciudad de México",
+    "category": "Departamento",
+    "image": "",
+    "imageAlt": "Condesa 05 B, Ciudad de México — MYPLACE",
+    "url": "https://www.airbnb.mx/rooms/955176930096679370",
+    "listingTitle": "PH Surrealista Retreat con aire acondicionado y desayuno"
+  },
+  {
+    "id": "condesa-06",
+    "name": "Condesa 06",
+    "location": "Ciudad de México",
+    "category": "Departamento",
+    "image": "",
+    "imageAlt": "Condesa 06, Ciudad de México — MYPLACE",
+    "url": "https://www.airbnb.mx/rooms/21107757",
+    "listingTitle": "Espacioso Comodo y con Mucho Estilo en la Condesa"
+  },
+  {
+    "id": "condesa-07",
+    "name": "Condesa 07",
+    "location": "Ciudad de México",
+    "category": "Departamento",
+    "image": "",
+    "imageAlt": "Condesa 07, Ciudad de México — MYPLACE",
+    "url": "https://www.airbnb.mx/rooms/22882047",
+    "listingTitle": "Hermosa pared de arte de melocotones G7"
+  },
+  {
+    "id": "condesa-08",
+    "name": "Condesa 08",
+    "location": "Ciudad de México",
+    "category": "Departamento",
+    "image": "",
+    "imageAlt": "Condesa 08, Ciudad de México — MYPLACE",
+    "url": "https://www.airbnb.mx/rooms/21108073",
+    "listingTitle": "Amplio y lleno de luz, Condesa Excelente ubicación"
+  },
+  {
+    "id": "condesa-09",
+    "name": "Condesa 09",
+    "location": "Ciudad de México",
+    "category": "Departamento",
+    "image": "",
+    "imageAlt": "Condesa 09, Ciudad de México — MYPLACE",
+    "url": "https://www.airbnb.mx/rooms/22882850",
+    "listingTitle": "Ubicación y Comodidad Inigualable en la Condesa"
+  },
+  {
+    "id": "condesa-10",
+    "name": "Condesa 10",
+    "location": "Ciudad de México",
+    "category": "Departamento",
+    "image": "",
+    "imageAlt": "Condesa 10, Ciudad de México — MYPLACE",
+    "url": "https://www.airbnb.mx/rooms/21107601",
+    "listingTitle": "Sumérgete en un apartamento de lujo con azotea"
+  },
+  {
+    "id": "condesa-11",
+    "name": "Condesa 11",
+    "location": "Ciudad de México",
+    "category": "Departamento",
+    "image": "",
+    "imageAlt": "Condesa 11, Ciudad de México — MYPLACE",
+    "url": "https://www.airbnb.mx/rooms/872405673833959397",
+    "listingTitle": "Moderna suite Condesa de 1 dormitorio en la azotea y terraza"
+  },
+  {
+    "id": "donceles-07",
+    "name": "Donceles 07",
+    "location": "Ciudad de México",
+    "category": "Departamento",
+    "image": "",
+    "imageAlt": "Donceles 07, Ciudad de México — MYPLACE",
+    "url": "https://www.airbnb.com/rooms/1455451813820111175",
+    "listingTitle": "Ubicación, ubicación y estilo @ Centro H (D7)"
+  },
+  {
+    "id": "donceles-11",
+    "name": "Donceles 11",
+    "location": "Ciudad de México",
+    "category": "Departamento",
+    "image": "",
+    "imageAlt": "Donceles 11, Ciudad de México — MYPLACE",
+    "url": "https://www.airbnb.com/rooms/1455452275903223930",
+    "listingTitle": "Depa Retro-Super-Hip en el Centro de la CDMX (D11)"
+  },
+  {
+    "id": "donceles-12",
+    "name": "Donceles 12",
+    "location": "Ciudad de México",
+    "category": "Departamento",
+    "image": "",
+    "imageAlt": "Donceles 12, Ciudad de México — MYPLACE",
+    "url": "https://www.airbnb.com/rooms/1455452612012782275",
+    "listingTitle": "Art Lovers Pad / Heart of Downtown Mx City (D12)"
+  },
+  {
+    "id": "donceles-18",
+    "name": "Donceles 18",
+    "location": "Ciudad de México",
+    "category": "Departamento",
+    "image": "",
+    "imageAlt": "Donceles 18, Ciudad de México — MYPLACE",
+    "url": "https://airbnb.mx/h/donceles18",
+    "listingTitle": "Cómodo depa 4pax junto a Bellas Artes gym y terraza"
+  },
+  {
+    "id": "donceles-mix-12",
+    "name": "Donceles Mix 12",
+    "location": "Ciudad de México",
+    "category": "Departamento",
+    "image": "",
+    "imageAlt": "Donceles Mix 12, Ciudad de México — MYPLACE",
+    "url": "https://airbnb.mx/h/mixd12",
+    "listingTitle": "Ideal para 12 Estudios Modernos + Gym y Terraza"
+  },
+  {
+    "id": "donceles-mix-8",
+    "name": "Donceles Mix 8",
+    "location": "Ciudad de México",
+    "category": "Departamento",
+    "image": "",
+    "imageAlt": "Donceles Mix 8, Ciudad de México — MYPLACE",
+    "url": "https://airbnb.mx/h/dmix8",
+    "listingTitle": "Hospedaje grupal 8 con gimnasio, terraza y elevador"
+  },
+  {
+    "id": "peru-9",
+    "name": "Perú 9",
+    "location": "Ciudad de México",
+    "category": "Departamento",
+    "image": "",
+    "imageAlt": "Perú 9, Ciudad de México — MYPLACE",
+    "url": "https://www.airbnb.com/rooms/1453710551526486837",
+    "listingTitle": "Confort, lujo y ubicación en el corazón de CDMX"
+  },
+  {
+    "id": "si-zocalo-302",
+    "name": "SI - Zócalo 302",
+    "location": "Ciudad de México",
+    "category": "Departamento",
+    "image": "",
+    "imageAlt": "SI - Zócalo 302, Ciudad de México — MYPLACE",
+    "url": "https://www.airbnb.com/rooms/1453711342469102387",
+    "listingTitle": "A 1 cuadra del Zócalo con increíble roof (SI302)"
+  },
+  {
+    "id": "si-zocalo-304",
+    "name": "SI - Zócalo 304",
+    "location": "Ciudad de México",
+    "category": "Departamento",
+    "image": "",
+    "imageAlt": "SI - Zócalo 304, Ciudad de México — MYPLACE",
+    "url": "https://www.airbnb.com/rooms/1455453505282147719",
+    "listingTitle": "El Zócalo y Templo Mayor a tus pies (SI304)"
+  },
+  {
+    "id": "si-zocalo-101",
+    "name": "SI - Zócalo 101",
+    "location": "Ciudad de México",
+    "category": "Departamento",
+    "image": "",
+    "imageAlt": "SI - Zócalo 101, Ciudad de México — MYPLACE",
+    "url": "https://www.airbnb.mx/rooms/1493525569837395118",
+    "listingTitle": "Loft cozy en el corazón del Centro Histórico (SI101)"
+  },
+  {
+    "id": "casa-filomeno-studio-amplio",
+    "name": "Casa Filomeno - Studio Amplio",
+    "location": "Ciudad de México",
+    "category": "Estudio",
+    "image": "",
+    "imageAlt": "Casa Filomeno - Studio Amplio, Ciudad de México — MYPLACE",
+    "url": "https://www.airbnb.mx/rooms/1150995640478286376",
+    "listingTitle": "Cómodo estudio en el corazón de México"
+  },
+  {
+    "id": "casa-filomeno-101",
+    "name": "Casa Filomeno 101",
+    "location": "Ciudad de México",
+    "category": "Departamento",
+    "image": "",
+    "imageAlt": "Casa Filomeno 101, Ciudad de México — MYPLACE",
+    "url": "https://www.airbnb.com/rooms/1150996636387737745",
+    "listingTitle": "Estudio de lujo en el centro con servicios del hotel y vistas"
+  },
+  {
+    "id": "casa-filomeno-201",
+    "name": "Casa Filomeno 201",
+    "location": "Ciudad de México",
+    "category": "Departamento",
+    "image": "",
+    "imageAlt": "Casa Filomeno 201, Ciudad de México — MYPLACE",
+    "url": "https://www.airbnb.com/rooms/1150996870136950810",
+    "listingTitle": "Estudio de lujo en el centro con servicios del hotel y vistas"
+  },
+  {
+    "id": "casa-filomeno-304-studio-hf1",
+    "name": "Casa Filomeno 304 (Studio HF1)",
+    "location": "Ciudad de México",
+    "category": "Estudio",
+    "image": "",
+    "imageAlt": "Casa Filomeno 304 (Studio HF1), Ciudad de México — MYPLACE",
+    "url": "https://www.airbnb.mx/rooms/1137031781381539628",
+    "listingTitle": "Estudio de lujo a solo unos pasos de Torre Latino"
+  },
+  {
+    "id": "casa-filomeno-102-studio-1",
+    "name": "Casa Filomeno 102 (Studio 1)",
+    "location": "Ciudad de México",
+    "category": "Estudio",
+    "image": "",
+    "imageAlt": "Casa Filomeno 102 (Studio 1), Ciudad de México — MYPLACE",
+    "url": "https://www.airbnb.com/rooms/1148047315998375717",
+    "listingTitle": "Estudio de alta gama a solo unos pasos de Bellas Artes"
+  },
+  {
+    "id": "casa-filomeno-103-studio-2",
+    "name": "Casa Filomeno 103 (Studio 2)",
+    "location": "Ciudad de México",
+    "category": "Estudio",
+    "image": "",
+    "imageAlt": "Casa Filomeno 103 (Studio 2), Ciudad de México — MYPLACE",
+    "url": "https://www.airbnb.com/rooms/1148047337363180110",
+    "listingTitle": "Estudio de alta gama a solo unos pasos de Bellas Artes"
+  },
+  {
+    "id": "casa-filomeno-104-studio-3",
+    "name": "Casa Filomeno 104 (Studio 3)",
+    "location": "Ciudad de México",
+    "category": "Estudio",
+    "image": "",
+    "imageAlt": "Casa Filomeno 104 (Studio 3), Ciudad de México — MYPLACE",
+    "url": "https://www.airbnb.com/rooms/1148047361708976933",
+    "listingTitle": "Estudio de alta gama a solo unos pasos de Bellas Artes"
+  },
+  {
+    "id": "casa-filomeno-105-studio-4",
+    "name": "Casa Filomeno 105 (Studio 4)",
+    "location": "Ciudad de México",
+    "category": "Estudio",
+    "image": "",
+    "imageAlt": "Casa Filomeno 105 (Studio 4), Ciudad de México — MYPLACE",
+    "url": "https://www.airbnb.com/rooms/1148047382256454513",
+    "listingTitle": "Estudio de alta gama a solo unos pasos de Bellas Artes"
+  },
+  {
+    "id": "casa-filomeno-202-studio-5",
+    "name": "Casa Filomeno 202 (Studio 5)",
+    "location": "Ciudad de México",
+    "category": "Estudio",
+    "image": "",
+    "imageAlt": "Casa Filomeno 202 (Studio 5), Ciudad de México — MYPLACE",
+    "url": "https://www.airbnb.com/rooms/1148047660751091615",
+    "listingTitle": "Estudio de alta gama a solo unos pasos de Bellas Artes"
+  },
+  {
+    "id": "casa-filomeno-203-studio-6",
+    "name": "Casa Filomeno 203 (Studio 6)",
+    "location": "Ciudad de México",
+    "category": "Estudio",
+    "image": "",
+    "imageAlt": "Casa Filomeno 203 (Studio 6), Ciudad de México — MYPLACE",
+    "url": "https://www.airbnb.com/rooms/1148047688927583253",
+    "listingTitle": "Estudio de alta gama a solo unos pasos de Bellas Artes"
+  },
+  {
+    "id": "casa-filomeno-204-studio-7",
+    "name": "Casa Filomeno 204 (Studio 7)",
+    "location": "Ciudad de México",
+    "category": "Estudio",
+    "image": "",
+    "imageAlt": "Casa Filomeno 204 (Studio 7), Ciudad de México — MYPLACE",
+    "url": "https://www.airbnb.com/rooms/1148047881245577424",
+    "listingTitle": "Estudio de alta gama a solo unos pasos de Bellas Artes"
+  },
+  {
+    "id": "casa-filomeno-205-studio-8",
+    "name": "Casa Filomeno 205 (Studio 8)",
+    "location": "Ciudad de México",
+    "category": "Estudio",
+    "image": "",
+    "imageAlt": "Casa Filomeno 205 (Studio 8), Ciudad de México — MYPLACE",
+    "url": "https://www.airbnb.com/rooms/1148048055916601016",
+    "listingTitle": "Estudio de alta gama a solo unos pasos de Bellas Artes"
+  },
+  {
+    "id": "casa-filomeno-305-suite-2-camas",
+    "name": "Casa Filomeno 305 (Suite 2 camas)",
+    "location": "Ciudad de México",
+    "category": "Suite",
+    "image": "",
+    "imageAlt": "Casa Filomeno 305 (Suite 2 camas), Ciudad de México — MYPLACE",
+    "url": "https://www.airbnb.com/rooms/1137029379513396364",
+    "listingTitle": "Suite estilo hotel de 2 camas en el centro histórico, azotea"
+  },
+  {
+    "id": "casa-filomeno-suite-2hab-studio",
+    "name": "Casa Filomeno Suite 2hab+Studio",
+    "location": "Ciudad de México",
+    "category": "Suite",
+    "image": "",
+    "imageAlt": "Casa Filomeno Suite 2hab+Studio, Ciudad de México — MYPLACE",
+    "url": "https://www.airbnb.com/rooms/1137028659700009106",
+    "listingTitle": "Elegante alojamiento de 2 dormitorios en la histórica Ciudad de México"
+  },
+  {
+    "id": "casa-filomeno-302-suite-king-studio",
+    "name": "Casa Filomeno 302 Suite King+Studio",
+    "location": "Ciudad de México",
+    "category": "Suite",
+    "image": "",
+    "imageAlt": "Casa Filomeno 302 Suite King+Studio, Ciudad de México — MYPLACE",
+    "url": "https://www.airbnb.com/rooms/1137028035898525422",
+    "listingTitle": "Suite de estilo hotelero de 2 dormitorios con vistas a la azotea"
+  },
+  {
+    "id": "casa-filomeno-suite-king",
+    "name": "Casa Filomeno Suite King",
+    "location": "Ciudad de México",
+    "category": "Suite",
+    "image": "",
+    "imageAlt": "Casa Filomeno Suite King, Ciudad de México — MYPLACE",
+    "url": "https://www.airbnb.com/rooms/1137030820131292566",
+    "listingTitle": "Suite principal a pocos pasos de Bellas Artes"
+  },
+  {
+    "id": "pm-bali-403",
+    "name": "PM Bali 403",
+    "location": "Acapulco",
+    "category": "Departamento",
+    "image": "",
+    "imageAlt": "PM Bali 403, Acapulco — MYPLACE",
+    "url": "https://www.airbnb.com/rooms/53457180",
+    "listingTitle": "Atardeceres mágicos, cama king, servicio pro B403"
+  },
+  {
+    "id": "pm-bali-phjr01",
+    "name": "PM Bali PHJR01",
+    "location": "Acapulco",
+    "category": "Departamento",
+    "image": "",
+    "imageAlt": "PM Bali PHJR01, Acapulco — MYPLACE",
+    "url": "https://www.airbnb.com/rooms/846431904769490765",
+    "listingTitle": "JRPH con jacuzzi y las mejores vistas de Acapulco"
+  },
+  {
+    "id": "pm-bermuda-103",
+    "name": "PM Bermuda 103",
+    "location": "Acapulco",
+    "category": "Departamento",
+    "image": "",
+    "imageAlt": "PM Bermuda 103, Acapulco — MYPLACE",
+    "url": "https://www.airbnb.com/rooms/938679544597117802",
+    "listingTitle": "Apartamento con club de mar y vista al océano 103B"
+  },
+  {
+    "id": "pm-biarritz-101",
+    "name": "PM Biarritz 101",
+    "location": "Acapulco",
+    "category": "Departamento",
+    "image": "",
+    "imageAlt": "PM Biarritz 101, Acapulco — MYPLACE",
+    "url": "https://www.airbnb.com/rooms/640024560953210147",
+    "listingTitle": "Apartamento con jacuzzi privado 101 Biarritz"
+  },
+  {
+    "id": "pm-biarritz-303",
+    "name": "PM Biarritz 303",
+    "location": "Acapulco",
+    "category": "Departamento",
+    "image": "",
+    "imageAlt": "PM Biarritz 303, Acapulco — MYPLACE",
+    "url": "https://www.airbnb.com/rooms/1437771694089386867",
+    "listingTitle": "Vista inigualable del mar, Biarritz 303"
+  },
+  {
+    "id": "pm-biarritz-gh03",
+    "name": "PM Biarritz GH03",
+    "location": "Acapulco",
+    "category": "Garden House",
+    "image": "",
+    "imageAlt": "PM Biarritz GH03, Acapulco — MYPLACE",
+    "url": "https://www.airbnb.com/rooms/682460527985299893",
+    "listingTitle": "Amplia casa ajardinada con vistas al mar GH03 Biarritz"
+  },
+  {
+    "id": "pm-biarritz-ph01",
+    "name": "PM Biarritz PH01",
+    "location": "Acapulco",
+    "category": "Departamento",
+    "image": "",
+    "imageAlt": "PM Biarritz PH01, Acapulco — MYPLACE",
+    "url": "https://www.airbnb.com/rooms/561639850918312229",
+    "listingTitle": "Luxury 4BR Penthouse PH w/ Private Pool (PH1 BRZ)"
+  },
+  {
+    "id": "pm-bora-202",
+    "name": "PM Bora 202",
+    "location": "Acapulco",
+    "category": "Departamento",
+    "image": "",
+    "imageAlt": "PM Bora 202, Acapulco — MYPLACE",
+    "url": "https://www.airbnb.com/rooms/650702012815570775",
+    "listingTitle": "Vistas, lujo y confort en Acapulco Bora 202"
+  },
+  {
+    "id": "pm-bora-gh01",
+    "name": "PM Bora GH01",
+    "location": "Acapulco",
+    "category": "Garden House",
+    "image": "",
+    "imageAlt": "PM Bora GH01, Acapulco — MYPLACE",
+    "url": "https://www.airbnb.com/rooms/40401707",
+    "listingTitle": "4 recámaras, colchones hoteleros, amenidades"
+  },
+  {
+    "id": "pm-bora-ph01",
+    "name": "PM Bora PH01",
+    "location": "Acapulco",
+    "category": "Departamento",
+    "image": "",
+    "imageAlt": "PM Bora PH01, Acapulco — MYPLACE",
+    "url": "https://www.airbnb.com/rooms/41637805",
+    "listingTitle": "Espectacular PH con vistas panorámicas (PH1 BB)"
+  },
+  {
+    "id": "pm-f-bali-gh01",
+    "name": "PM F Bali GH01",
+    "location": "Acapulco",
+    "category": "Garden House",
+    "image": "",
+    "imageAlt": "PM F Bali GH01, Acapulco — MYPLACE",
+    "url": "https://www.airbnb.com/rooms/1439519986009431901",
+    "listingTitle": "Vista, terraza y jardín en Garden House Acapulco"
+  },
+  {
+    "id": "pm-f-bermuda-gh02",
+    "name": "PM F Bermuda GH02",
+    "location": "Acapulco",
+    "category": "Garden House",
+    "image": "",
+    "imageAlt": "PM F Bermuda GH02, Acapulco — MYPLACE",
+    "url": "https://www.airbnb.com/rooms/1439520291072551853",
+    "listingTitle": "Vista al mar, selva y lujo en Acapulco (GH02 BE)"
+  },
+  {
+    "id": "pm-f-bermuda-gh03",
+    "name": "PM F Bermuda GH03",
+    "location": "Acapulco",
+    "category": "Garden House",
+    "image": "",
+    "imageAlt": "PM F Bermuda GH03, Acapulco — MYPLACE",
+    "url": "https://www.airbnb.com/rooms/1439520573751010032",
+    "listingTitle": "Increíble vista y ubicación junto al mar (GH03 Be)"
+  },
+  {
+    "id": "pm-f-ibiza-gh04",
+    "name": "PM F Ibiza GH04",
+    "location": "Acapulco",
+    "category": "Garden House",
+    "image": "",
+    "imageAlt": "PM F Ibiza GH04, Acapulco — MYPLACE",
+    "url": "https://www.airbnb.com/rooms/620078504911314910",
+    "listingTitle": "Casa con piscina privada GH04 Ibiza"
+  },
+  {
+    "id": "pm-ibiza-102",
+    "name": "PM Ibiza 102",
+    "location": "Acapulco",
+    "category": "Departamento",
+    "image": "",
+    "imageAlt": "PM Ibiza 102, Acapulco — MYPLACE",
+    "url": "https://www.airbnb.com/rooms/564521548688728426",
+    "listingTitle": "Apartamento familiar de 3 recámaras en Acapulco"
+  },
+  {
+    "id": "pm-ibiza-104",
+    "name": "PM Ibiza 104",
+    "location": "Acapulco",
+    "category": "Departamento",
+    "image": "",
+    "imageAlt": "PM Ibiza 104, Acapulco — MYPLACE",
+    "url": "https://www.airbnb.mx/rooms/954584355085540836",
+    "listingTitle": "Vistas espectaculares, amplio y club de mar 104 Ibiza"
+  },
+  {
+    "id": "pm-ibiza-202",
+    "name": "PM Ibiza 202",
+    "location": "Acapulco",
+    "category": "Departamento",
+    "image": "",
+    "imageAlt": "PM Ibiza 202, Acapulco — MYPLACE",
+    "url": "https://www.airbnb.mx/rooms/641309229352305099",
+    "listingTitle": "Increíble departamento para unos días inolvidables"
+  },
+  {
+    "id": "pm-ibiza-phjr03",
+    "name": "PM Ibiza PHJR03",
+    "location": "Acapulco",
+    "category": "Departamento",
+    "image": "",
+    "imageAlt": "PM Ibiza PHJR03, Acapulco — MYPLACE",
+    "url": "https://www.airbnb.com/rooms/41349575",
+    "listingTitle": "JrPH con cama king y una vista increíble"
+  },
+  {
+    "id": "pm-ibiza-phjr04",
+    "name": "PM Ibiza PHJR04",
+    "location": "Acapulco",
+    "category": "Departamento",
+    "image": "",
+    "imageAlt": "PM Ibiza PHJR04, Acapulco — MYPLACE",
+    "url": "https://www.airbnb.com/rooms/936165609064934674",
+    "listingTitle": "Junior PH con las mejores vistas al mar de Acapulco"
+  },
+  {
+    "id": "pm-bali-301",
+    "name": "PM Bali 301",
+    "location": "Acapulco",
+    "category": "Departamento",
+    "image": "",
+    "imageAlt": "PM Bali 301, Acapulco — MYPLACE",
+    "url": "https://www.airbnb.com/rooms/1481201465059740605",
+    "listingTitle": "Wake up with Sea View + Beach Club Included"
+  },
+  {
+    "id": "begrand",
+    "name": "BeGrand",
+    "location": "Ciudad de México",
+    "category": "Departamento",
+    "image": "",
+    "imageAlt": "BeGrand, Ciudad de México — MYPLACE",
+    "url": "https://www.airbnb.com/rooms/1611175496304437255",
+    "listingTitle": "Luxury condo: pool, gym and more"
+  },
+  {
+    "id": "casa-mexico-306",
+    "name": "Casa México 306",
+    "location": "Ciudad de México",
+    "category": "Departamento",
+    "image": "",
+    "imageAlt": "Casa México 306, Ciudad de México — MYPLACE",
+    "url": "https://airbnb.mx/h/hm306",
+    "listingTitle": "Atardeceres sobre el Zócalo desde tu Balcón y AC"
+  },
+  {
+    "id": "casa-mexico-307",
+    "name": "Casa México 307",
+    "location": "Ciudad de México",
+    "category": "Departamento",
+    "image": "",
+    "imageAlt": "Casa México 307, Ciudad de México — MYPLACE",
+    "url": "https://airbnb.mx/h/r307",
+    "listingTitle": "Refugio Romántico Frente al Zócalo con AC"
+  },
+  {
+    "id": "casa-mexico-309",
+    "name": "Casa México 309",
+    "location": "Ciudad de México",
+    "category": "Departamento",
+    "image": "",
+    "imageAlt": "Casa México 309, Ciudad de México — MYPLACE",
+    "url": "https://airbnb.mx/h/room309",
+    "listingTitle": "Lujo y Tradición Frente al Zócalo de la CDMX con AC"
+  },
+  {
+    "id": "casa-mexico-310",
+    "name": "Casa México 310",
+    "location": "Ciudad de México",
+    "category": "Departamento",
+    "image": "",
+    "imageAlt": "Casa México 310, Ciudad de México — MYPLACE",
+    "url": "https://airbnb.mx/h/room310cm",
+    "listingTitle": "Suite con AC, Frigobar y Vista al Zócalo CDMX"
+  },
+  {
+    "id": "casa-mexico-307-308",
+    "name": "Casa México 307/308",
+    "location": "Ciudad de México",
+    "category": "Departamento",
+    "image": "",
+    "imageAlt": "Casa México 307/308, Ciudad de México — MYPLACE",
+    "url": "https://airbnb.mx/h/307y308",
+    "listingTitle": "Suite Familiar con AC King y 2 Queen Frente a Zócalo"
+  },
+  {
+    "id": "casa-mexico-a-unos-pasos-del-zocalo",
+    "name": "Casa México — A unos pasos del Zócalo",
+    "location": "Ciudad de México",
+    "category": "Departamento",
+    "image": "",
+    "imageAlt": "Casa México — A unos pasos del Zócalo, Ciudad de México — MYPLACE",
+    "url": "https://www.airbnb.mx/rooms/1699388376074600871",
+    "listingTitle": "A unos pasos del Zócalo: Ubicación inmejorable, AC"
+  },
+  {
+    "id": "casa-mexico-corazon-del-centro-historico",
+    "name": "Casa México — Corazón del Centro Histórico",
+    "location": "Ciudad de México",
+    "category": "Departamento",
+    "image": "",
+    "imageAlt": "Casa México — Corazón del Centro Histórico, Ciudad de México — MYPLACE",
+    "url": "https://www.airbnb.mx/rooms/1699412201802982040",
+    "listingTitle": "En el corazón del Centro Histórico y AC"
+  },
+  {
+    "id": "casa-mexico-oasis-frente-al-zocalo",
+    "name": "Casa México — Oasis frente al Zócalo",
+    "location": "Ciudad de México",
+    "category": "Departamento",
+    "image": "",
+    "imageAlt": "Casa México — Oasis frente al Zócalo, Ciudad de México — MYPLACE",
+    "url": "https://www.airbnb.mx/rooms/1699419361116614269",
+    "listingTitle": "Oasis con AC frente al Zócalo"
+  },
+  {
+    "id": "casa-mexico-refugio-frente-al-zocalo",
+    "name": "Casa México — Refugio frente al Zócalo",
+    "location": "Ciudad de México",
+    "category": "Departamento",
+    "image": "",
+    "imageAlt": "Casa México — Refugio frente al Zócalo, Ciudad de México — MYPLACE",
+    "url": "https://www.airbnb.mx/rooms/1699427478087532972",
+    "listingTitle": "Refugio con AC frente al Zócalo"
+  },
+  {
+    "id": "casa-mexico-downtown-zocalo-suite",
+    "name": "Casa México — Downtown Zócalo Suite",
+    "location": "Ciudad de México",
+    "category": "Suite",
+    "image": "",
+    "imageAlt": "Casa México — Downtown Zócalo Suite, Ciudad de México — MYPLACE",
+    "url": "https://www.airbnb.mx/rooms/1699432162697928233",
+    "listingTitle": "Downtown Zócalo Suite with AC"
+  },
+  {
+    "id": "casa-mexico-301",
+    "name": "Casa México 301",
+    "location": "Ciudad de México",
+    "category": "Departamento",
+    "image": "",
+    "imageAlt": "Casa México 301, Ciudad de México — MYPLACE",
+    "url": "https://www.airbnb.mx/rooms/1699436184214547675",
+    "listingTitle": "Zócalo Front Family Loft: King, 2 Queen, AC"
+  }
+]

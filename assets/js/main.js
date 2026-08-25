@@ -182,10 +182,14 @@
         card.className = 'pf-card';
         card.setAttribute('target', '_blank');
         card.setAttribute('rel', 'noopener');
+        const imageMarkup = p.image
+          ? `<img src="${p.image}" alt="${p.imageAlt || p.name}" loading="lazy" width="380" height="507">`
+          : `<div class="pf-card-image-pending" role="img" aria-label="${p.imageAlt || p.name}">
+               <p class="pf-card-image-pending-mark">${p.name}</p>
+               <p class="pf-card-image-pending-note">Fotografía próximamente</p>
+             </div>`;
         card.innerHTML = `
-          <div class="pf-card-image">
-            <img src="${p.image}" alt="${p.imageAlt || p.name}" loading="lazy" width="380" height="507">
-          </div>
+          <div class="pf-card-image">${imageMarkup}</div>
           <p class="pf-card-category">${p.category || ''}</p>
           <p class="pf-card-name">${p.name}</p>
           <p class="pf-card-location">${p.location || ''}</p>
@@ -204,7 +208,7 @@
       const cards = Array.from(pfTrack.querySelectorAll('.pf-card'));
       const dots = Array.from(pfDots.querySelectorAll('.pf-dot'));
 
-      // Preload solo la primera imagen — es la única con valor real en el LCP
+      // Preload solo la primera imagen real (si existe) — es la única con valor en el LCP
       cards[0]?.querySelector('img')?.setAttribute('loading', 'eager');
 
       const pfObserver = new IntersectionObserver((entries) => {

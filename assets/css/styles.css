@@ -774,6 +774,26 @@
     transition: transform 0.8s var(--ease-out);
   }
   .pf-card.pf-active:hover .pf-card-image img { transform: scale(1.03); }
+
+  /* Tratamiento cuando aún no hay fotografía de la propiedad — nunca un
+     stock genérico ni una imagen rota, solo tipografía sobria consistente
+     con el resto del sitio. */
+  .pf-card-image-pending {
+    width: 100%; height: 100%;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; padding: 40px;
+    background: linear-gradient(160deg, #201F1B 0%, #141310 100%);
+    border: 1px solid rgba(245,240,232,0.08);
+  }
+  .pf-card-image-pending-mark {
+    font-family: var(--font-serif); font-style: italic; font-weight: 300;
+    font-size: clamp(24px, 3vw, 34px); color: rgba(245,240,232,0.4);
+    line-height: 1.2;
+  }
+  .pf-card-image-pending-note {
+    font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase;
+    color: rgba(245,240,232,0.25); margin-top: 16px;
+  }
   .pf-card-category {
     font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
     color: var(--sand); margin-bottom: 10px; text-align: center;
