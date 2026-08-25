@@ -239,25 +239,29 @@
         if (e.key === 'ArrowLeft') { e.preventDefault(); step(-1); }
       });
 
-      // Drag-to-scroll con mouse en desktop (touch ya funciona nativo)
+      // Drag-to-scroll con mouse en desktop (touch ya funciona nativo).
+      // Nota: deliberadamente NO usamos setPointerCapture aquí — capturar el
+      // puntero sobre el track rompe la navegación nativa de los <a> hijos
+      // (bug conocido: el click deja de llegar al enlace incluso sin arrastre
+      // real). Mouse events normales en window evitan el problema.
       let isDown = false, startX = 0, startScroll = 0, moved = false;
-      pfTrack.addEventListener('pointerdown', (e) => {
-        if (e.pointerType === 'touch') return;
+      pfTrack.addEventListener('mousedown', (e) => {
         isDown = true; moved = false;
         pfTrack.classList.add('dragging');
         startX = e.clientX;
         startScroll = pfTrack.scrollLeft;
-        pfTrack.setPointerCapture(e.pointerId);
       });
-      pfTrack.addEventListener('pointermove', (e) => {
+      window.addEventListener('mousemove', (e) => {
         if (!isDown) return;
         const dx = e.clientX - startX;
         if (Math.abs(dx) > 4) moved = true;
         pfTrack.scrollLeft = startScroll - dx;
       });
-      const endDrag = () => { isDown = false; pfTrack.classList.remove('dragging'); };
-      pfTrack.addEventListener('pointerup', endDrag);
-      pfTrack.addEventListener('pointerleave', endDrag);
+      window.addEventListener('mouseup', () => {
+        if (!isDown) return;
+        isDown = false;
+        pfTrack.classList.remove('dragging');
+      });
       pfTrack.addEventListener('click', (e) => {
         if (moved) { e.preventDefault(); moved = false; }
       }, true);
