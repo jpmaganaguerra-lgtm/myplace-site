@@ -53,7 +53,6 @@
   }
 
   .nav-dropdown-menu-inner a {
-    position: relative;
     display: block;
     padding: 12px 28px;
     white-space: nowrap;
@@ -65,12 +64,17 @@
     transition: opacity .3s ease;
   }
 
-  .nav-dropdown-menu-inner a::after {
+  .nav-dropdown-menu-inner a span {
+    position: relative;
+    display: inline-block;
+  }
+
+  .nav-dropdown-menu-inner a span::after {
     content: '';
     position: absolute;
-    left: 28px;
-    right: 28px;
-    bottom: 9px;
+    left: 0;
+    right: 0;
+    bottom: -6px;
     height: 1px;
     background: currentColor;
     transform: scaleX(0);
@@ -83,8 +87,8 @@
     opacity: 1;
   }
 
-  .nav-dropdown-menu-inner a:hover::after,
-  .nav-dropdown-menu-inner a:focus-visible::after {
+  .nav-dropdown-menu-inner a:hover span::after,
+  .nav-dropdown-menu-inner a:focus-visible span::after {
     transform: scaleX(1);
   }
 
@@ -167,9 +171,9 @@
       <a href="#" class="nav-dropdown-toggle" aria-haspopup="true" aria-expanded="false">Portfolio</a>
       <div class="nav-dropdown-menu">
         <div class="nav-dropdown-menu-inner">
-          <a href="#brands">Brands</a>
-          <a href="/portfolio">Listings</a>
-          <a href="#cases">Case Studies</a>
+          <a href="#brands"><span>Brands</span></a>
+          <a href="/portfolio"><span>Listings</span></a>
+          <a href="#cases"><span>Case Studies</span></a>
         </div>
       </div>
     </li>
