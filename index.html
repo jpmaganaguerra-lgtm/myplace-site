@@ -39,11 +39,13 @@
 <div class="mobile-menu" id="mobile-menu">
   <a href="#solutions" onclick="closeMobileMenu()">Solutions</a>
   <a href="#technology" onclick="closeMobileMenu()">Technology</a>
-  <button class="mobile-menu-accordion-trigger" id="mobile-portfolio-trigger" aria-expanded="false">Portfolio</button>
-  <div class="mobile-menu-submenu" id="mobile-portfolio-submenu">
-    <a href="#brands" onclick="closeMobileMenu()">Brands</a>
-    <a href="/portfolio">Listings</a>
-    <a href="#cases" onclick="closeMobileMenu()">Case Studies</a>
+  <div class="nav-item-dropdown">
+    <button class="nav-dropdown-trigger" aria-expanded="false" aria-haspopup="true">Portfolio</button>
+    <div class="nav-dropdown-menu">
+      <a href="#brands" onclick="closeMobileMenu()">Brands</a>
+      <a href="/portfolio">Listings</a>
+      <a href="#cases" onclick="closeMobileMenu()">Case Studies</a>
+    </div>
   </div>
   <a href="#atelier" onclick="closeMobileMenu()">Atelier</a>
   <a href="#contact" onclick="closeMobileMenu()">Contact</a>
