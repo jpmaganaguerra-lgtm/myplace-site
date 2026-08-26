@@ -132,15 +132,14 @@
     }, 4000);
   }
 
-  /* ── Map dot interactions ── */
-  document.querySelectorAll('.map-dot').forEach(dot => {
-    dot.addEventListener('mouseenter', () => {
-      dot.style.transform = 'translate(-50%, -50%) scale(1.8)';
-      dot.style.background = 'var(--sand)';
-    });
-    dot.addEventListener('mouseleave', () => {
-      dot.style.transform = '';
-      dot.style.background = '';
+  /* ── Where We Operate: market switcher ── */
+  const marketButtons = document.querySelectorAll('#markets-list .location-item');
+  const marketFrames = document.querySelectorAll('.market-map-frame');
+  marketButtons.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const market = btn.dataset.market;
+      marketButtons.forEach(b => b.classList.toggle('is-active', b === btn));
+      marketFrames.forEach(f => f.classList.toggle('is-active', f.dataset.market === market));
     });
   });
 
