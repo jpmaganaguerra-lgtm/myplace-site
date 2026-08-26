@@ -16,7 +16,29 @@ const OUTPUT_DIR = path.join(ROOT, 'portfolio');
 function extractBlock(html, startMarker, endTag) {
   const start = html.indexOf(startMarker);
   if (start === -1) throw new Error(`No encontré el marcador: ${startMarker}`);
-  const end = html.indexOf(endTag, start) + endTag.length;
+
+  const tagName = endTag.replace(/[</>]/g, '');
+  const openRe = new RegExp(`<${tagName}[\\s>]`, 'g');
+
+  let depth = 0;
+  let cursor = start;
+  let end = -1;
+  while (true) {
+    openRe.lastIndex = cursor;
+    const nextOpen = openRe.exec(html);
+    const nextClose = html.indexOf(endTag, cursor);
+    if (nextClose === -1) break;
+    if (nextOpen && nextOpen.index < nextClose) {
+      depth += 1;
+      cursor = nextOpen.index + nextOpen[0].length;
+    } else {
+      depth -= 1;
+      cursor = nextClose + endTag.length;
+      if (depth === 0) { end = cursor; break; }
+    }
+  }
+  if (end === -1) throw new Error(`No encontré el cierre balanceado de: ${startMarker}`);
+
   let block = html.slice(start, end);
   block = block.replace(/(?<!\/)assets\//g, '/assets/');
   block = block.replace(/href="#"/g, 'href="/"');

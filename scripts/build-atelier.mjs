@@ -27,10 +27,39 @@ function readIndexHtml() {
 // Extrae un bloque de index.html entre un marcador de apertura literal y un
 // tag de cierre, y reescribe rutas relativas y anclas (#seccion) para que
 // funcionen desde /atelier/{slug}/, dos niveles más abajo en el árbol.
+//
+// IMPORTANTE: busca el cierre BALANCEADO del tag, no el primer "</tag>" que
+// aparezca. Antes usaba indexOf ingenuo, que se rompía en cuanto el bloque
+// tenía un tag hijo del mismo tipo anidado adentro (p. ej. el dropdown de
+// Portfolio agregó un <div> dentro de <div class="mobile-menu">, y el primer
+// "</div>" que encontraba era el del hijo, cortando el resto del menú).
 function extractBlock(html, startMarker, endTag) {
   const start = html.indexOf(startMarker);
   if (start === -1) throw new Error(`No encontré el marcador: ${startMarker}`);
-  const end = html.indexOf(endTag, start) + endTag.length;
+
+  const tagName = endTag.replace(/[</>]/g, ''); // "nav", "div", "footer"...
+  const openRe = new RegExp(`<${tagName}[\\s>]`, 'g');
+  openRe.lastIndex = start;
+
+  let depth = 0;
+  let cursor = start;
+  let end = -1;
+  while (true) {
+    openRe.lastIndex = cursor;
+    const nextOpen = openRe.exec(html);
+    const nextClose = html.indexOf(endTag, cursor);
+    if (nextClose === -1) break;
+    if (nextOpen && nextOpen.index < nextClose) {
+      depth += 1;
+      cursor = nextOpen.index + nextOpen[0].length;
+    } else {
+      depth -= 1;
+      cursor = nextClose + endTag.length;
+      if (depth === 0) { end = cursor; break; }
+    }
+  }
+  if (end === -1) throw new Error(`No encontré el cierre balanceado de: ${startMarker}`);
+
   let block = html.slice(start, end);
   block = block.replace(/(?<!\/)assets\//g, '/assets/');
   block = block.replace(/href="#"/g, 'href="/"');
