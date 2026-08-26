@@ -606,38 +606,20 @@
   .portfolio-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
   .portfolio-map {
     position: relative; aspect-ratio: 1; max-width: 560px;
-    background: rgba(245,240,232,0.02); border: 1px solid rgba(245,240,232,0.06);
+    background: rgba(245,240,232,0.02); border: 1px solid rgba(245,240,232,0.12);
+    overflow: hidden;
   }
-  /* Simple Mexico outline via dots */
-  .map-dot {
-    position: absolute; width: 8px; height: 8px; border-radius: 50%;
-    background: var(--olive); cursor: pointer;
-    transform: translate(-50%, -50%);
-    transition: transform 0.2s, background 0.2s;
+  /* Mapa real de Google (embed sin API key). El filtro en escala de grises
+     es lo más cerca que se puede llegar a la paleta monocromática del sitio
+     sin un estilo de mapa personalizado, que requiere API key. */
+  .market-map-frame {
+    position: absolute; inset: 0; width: 100%; height: 100%; border: 0;
+    filter: grayscale(1) contrast(1.08) brightness(0.92);
+    opacity: 0; visibility: hidden; pointer-events: none;
+    transition: opacity 0.5s var(--ease-out), visibility 0.5s;
   }
-  .map-dot::before {
-    content: ''; position: absolute; inset: -6px; border-radius: 50%;
-    border: 1px solid var(--olive); opacity: 0;
-    animation: mapPulse 3s ease-in-out infinite;
-  }
-  .map-dot:hover { transform: translate(-50%, -50%) scale(1.5); background: var(--sand); }
-  @keyframes mapPulse {
-    0%, 100% { opacity: 0; transform: scale(1); }
-    50% { opacity: 0.4; transform: scale(2); }
-  }
-  .map-label {
-    position: absolute; font-size: 11px; letter-spacing: 0.08em;
-    color: rgba(245,240,232,0.4); white-space: nowrap;
-    pointer-events: none;
-    transform: translateY(-24px);
-    font-family: var(--font-sans);
-  }
-  .map-city { position: absolute; }
-  /* Mexico map visual - simplified abstract */
-  .map-bg-shape {
-    position: absolute; inset: 15%; opacity: 0.04;
-    border: 1px solid var(--bone);
-    clip-path: polygon(20% 10%, 85% 5%, 95% 20%, 90% 40%, 95% 55%, 80% 75%, 60% 85%, 40% 90%, 15% 70%, 5% 50%, 8% 25%);
+  .market-map-frame.is-active {
+    opacity: 1; visibility: visible; pointer-events: auto;
   }
   .portfolio-content .section-label { color: var(--olive-light); }
   .portfolio-content .section-label::before { background: var(--olive-light); }
@@ -652,17 +634,25 @@
   .location-list { display: flex; flex-direction: column; gap: 0; }
   .location-item {
     display: flex; align-items: center; justify-content: space-between;
-    padding: 16px 0; border-bottom: 1px solid rgba(245,240,232,0.07);
+    width: 100%; padding: 16px 0; border-bottom: 1px solid rgba(245,240,232,0.07);
     cursor: pointer; transition: color 0.2s;
+    background: none; border-left: none; border-right: none; border-top: none;
+    text-align: left; font: inherit;
   }
   .location-item:hover .location-name { color: var(--sand); }
+  .location-item.is-active .location-name { color: var(--sand); }
+  .location-item.is-active .location-count { color: var(--olive-light); }
   .location-name {
     font-family: var(--font-serif); font-size: 20px; font-weight: 300;
     color: rgba(245,240,232,0.7); transition: color 0.2s;
   }
   .location-count {
     font-size: 11px; letter-spacing: 0.12em; color: rgba(245,240,232,0.25);
-    font-family: var(--font-sans);
+    font-family: var(--font-sans); white-space: nowrap; margin-left: 16px;
+    transition: color 0.2s;
+  }
+  @media (max-width: 600px) {
+    .location-name { font-size: 17px; }
   }
 
   /* ── Why MYPLACE ── */
