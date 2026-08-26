@@ -79,6 +79,69 @@
   }
   .nav-links a:hover { color: var(--bone); }
   .nav-links a:hover::after { transform: scaleX(1); transform-origin: left; }
+
+  /* Portfolio dropdown (desktop) */
+  .nav-item-dropdown { position: relative; }
+  .nav-dropdown-trigger {
+    font-family: var(--font-sans); font-size: 13px; font-weight: 400;
+    color: rgba(245,240,232,0.7); letter-spacing: 0.03em;
+    background: none; border: none; cursor: pointer; padding: 8px 0;
+    display: flex; align-items: center; gap: 6px;
+    transition: color 0.3s var(--ease-out);
+  }
+  .nav-dropdown-trigger::after {
+    content: '↓'; font-size: 9px; transform: translateY(1px);
+    transition: transform 0.3s var(--ease-out);
+  }
+  .nav-item-dropdown.is-open .nav-dropdown-trigger,
+  .nav-dropdown-trigger:focus-visible { color: var(--bone); }
+  .nav-item-dropdown.is-open .nav-dropdown-trigger::after { transform: rotate(180deg) translateY(-1px); }
+  .nav-dropdown-menu {
+    position: absolute; top: calc(100% + 14px); left: 50%;
+    transform: translateX(-50%) translateY(-6px);
+    min-width: 180px; background: rgba(13,12,10,0.97);
+    border: 1px solid rgba(245,240,232,0.1);
+    padding: 10px 0;
+    opacity: 0; visibility: hidden; pointer-events: none;
+    transition: opacity 0.25s var(--ease-out), transform 0.25s var(--ease-out), visibility 0.25s;
+  }
+  .nav-item-dropdown.is-open .nav-dropdown-menu {
+    opacity: 1; visibility: visible; pointer-events: auto;
+    transform: translateX(-50%) translateY(0);
+  }
+  .nav-dropdown-menu a {
+    display: block; text-align: center;
+    font-family: var(--font-sans); font-size: 13px; font-weight: 400;
+    color: rgba(245,240,232,0.65); text-decoration: none; letter-spacing: 0.03em;
+    padding: 11px 20px; transition: color 0.25s var(--ease-out), background 0.25s var(--ease-out);
+  }
+  .nav-dropdown-menu a:hover { color: var(--bone); background: rgba(245,240,232,0.06); }
+  .nav-dropdown-menu a::after { content: none; }
+
+  /* Mismo componente dentro del overlay móvil — solo cambia el tamaño de
+     tipografía para combinar con el resto de los links del menú móvil.
+     El comportamiento (clic para abrir/cerrar) es idéntico al de desktop. */
+  .mobile-menu .nav-dropdown-trigger {
+    font-family: var(--font-serif); font-size: 36px; font-weight: 300;
+    color: var(--bone); letter-spacing: 0.02em; gap: 12px; padding: 0;
+  }
+  .mobile-menu .nav-dropdown-trigger::after { font-size: 16px; }
+  .mobile-menu .nav-dropdown-menu {
+    position: static; transform: none; margin-top: 20px;
+    background: none; border: none; padding: 0;
+    display: flex; flex-direction: column; align-items: center; gap: 22px;
+    max-height: 0; overflow: hidden;
+    transition: max-height 0.35s var(--ease-out), opacity 0.25s var(--ease-out);
+  }
+  .mobile-menu .nav-item-dropdown.is-open .nav-dropdown-menu {
+    max-height: 240px; transform: none;
+  }
+  .mobile-menu .nav-dropdown-menu a {
+    font-family: var(--font-sans); font-size: 18px; font-weight: 400;
+    color: rgba(245,240,232,0.6); letter-spacing: 0.04em; padding: 0;
+  }
+  .mobile-menu .nav-dropdown-menu a:hover { background: none; color: var(--bone); }
+
   .nav-cta {
     font-family: var(--font-sans); font-size: 13px; font-weight: 400;
     color: var(--bone); border: 1px solid rgba(245,240,232,0.3);
@@ -106,6 +169,11 @@
     font-family: var(--font-serif); font-size: 36px; font-weight: 300;
     color: var(--bone); text-decoration: none; letter-spacing: 0.02em;
   }
+
+  /* El dropdown de Portfolio dentro del overlay móvil usa las mismas clases
+     .nav-item-dropdown / .nav-dropdown-trigger / .nav-dropdown-menu que en
+     desktop — solo se ajusta el tamaño de fuente para que combine con el
+     resto de los links del menú móvil (ver reglas más abajo). */
 
   /* ── Hero ── */
   .hero {
