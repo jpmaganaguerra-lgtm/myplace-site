@@ -392,52 +392,45 @@
       <div class="section-label">Portfolio</div>
       <h2 class="portfolio-headline reveal">Where We<br>Operate</h2>
       <p class="portfolio-desc reveal">A growing presence across Mexico's most important hospitality markets, with operations in coastal, urban and emerging destinations.</p>
-      <div class="location-list">
-        <div class="location-item">
-          <span class="location-name">Cancún</span>
-          <span class="location-count">Primary Market</span>
-        </div>
-        <div class="location-item">
-          <span class="location-name">Tulum</span>
-          <span class="location-count">Primary Market</span>
-        </div>
-        <div class="location-item">
-          <span class="location-name">Puerto Vallarta</span>
-          <span class="location-count">Expanding</span>
-        </div>
-        <div class="location-item">
-          <span class="location-name">Mexico City</span>
-          <span class="location-count">Expanding</span>
-        </div>
-        <div class="location-item">
+      <div class="location-list" id="markets-list">
+        <button class="location-item is-active" data-market="roma-condesa">
+          <span class="location-name">Ciudad de México — Roma / Condesa</span>
+          <span class="location-count">Active</span>
+        </button>
+        <button class="location-item" data-market="centro">
+          <span class="location-name">Ciudad de México — Centro</span>
+          <span class="location-count">Active</span>
+        </button>
+        <button class="location-item" data-market="acapulco">
           <span class="location-name">Acapulco</span>
           <span class="location-count">Active</span>
-        </div>
+        </button>
+        <button class="location-item" data-market="huatulco">
+          <span class="location-name">Huatulco</span>
+          <span class="location-count">Expanding</span>
+        </button>
+        <button class="location-item" data-market="san-jose-del-cabo">
+          <span class="location-name">San José del Cabo</span>
+          <span class="location-count">Expanding</span>
+        </button>
       </div>
     </div>
     <div class="portfolio-map" id="portfolio-map">
-      <div class="map-bg-shape"></div>
-      <!-- Approximate Mexico city positions in % -->
-      <div class="map-city" style="left:72%;top:18%">
-        <div class="map-dot" style="animation-delay:0s"></div>
-        <div class="map-label">Cancún</div>
-      </div>
-      <div class="map-city" style="left:65%;top:25%">
-        <div class="map-dot" style="animation-delay:0.8s"></div>
-        <div class="map-label">Tulum</div>
-      </div>
-      <div class="map-city" style="left:30%;top:38%">
-        <div class="map-dot" style="animation-delay:1.2s"></div>
-        <div class="map-label" style="left:12px;top:0">Puerto Vallarta</div>
-      </div>
-      <div class="map-city" style="left:50%;top:42%">
-        <div class="map-dot" style="animation-delay:0.4s"></div>
-        <div class="map-label">Mexico City</div>
-      </div>
-      <div class="map-city" style="left:44%;top:58%">
-        <div class="map-dot" style="animation-delay:1.6s"></div>
-        <div class="map-label">Acapulco</div>
-      </div>
+      <iframe class="market-map-frame is-active" data-market="roma-condesa"
+        src="https://maps.google.com/maps?q=Roma+Norte%2C+Ciudad+de+M%C3%A9xico&output=embed"
+        loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Mapa — Roma / Condesa, Ciudad de México"></iframe>
+      <iframe class="market-map-frame" data-market="centro"
+        src="https://maps.google.com/maps?q=Centro+Hist%C3%B3rico%2C+Ciudad+de+M%C3%A9xico&output=embed"
+        loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Mapa — Centro, Ciudad de México"></iframe>
+      <iframe class="market-map-frame" data-market="acapulco"
+        src="https://maps.google.com/maps?q=Acapulco%2C+Guerrero%2C+M%C3%A9xico&output=embed"
+        loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Mapa — Acapulco"></iframe>
+      <iframe class="market-map-frame" data-market="huatulco"
+        src="https://maps.google.com/maps?q=Bah%C3%ADas+de+Huatulco%2C+Oaxaca%2C+M%C3%A9xico&output=embed"
+        loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Mapa — Huatulco"></iframe>
+      <iframe class="market-map-frame" data-market="san-jose-del-cabo"
+        src="https://maps.google.com/maps?q=San+Jos%C3%A9+del+Cabo%2C+Baja+California+Sur%2C+M%C3%A9xico&output=embed"
+        loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Mapa — San José del Cabo"></iframe>
     </div>
   </div>
 </section>
