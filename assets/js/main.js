@@ -12,7 +12,44 @@
   });
   function closeMobileMenu() {
     mobileMenu.classList.remove('open');
+    closeAllDropdowns();
   }
+
+  /* ── Nav dropdowns (Portfolio: Brands / Listings / Case Studies) ──
+     Un mismo componente y comportamiento en desktop y mobile: clic para
+     abrir/cerrar, clic afuera lo cierra, Escape lo cierra, un solo
+     dropdown abierto a la vez. */
+  const dropdowns = Array.from(document.querySelectorAll('.nav-item-dropdown'));
+
+  function closeAllDropdowns() {
+    dropdowns.forEach((dropdown) => {
+      dropdown.classList.remove('is-open');
+      dropdown.querySelector('.nav-dropdown-trigger')?.setAttribute('aria-expanded', 'false');
+    });
+  }
+
+  dropdowns.forEach((dropdown) => {
+    const trigger = dropdown.querySelector('.nav-dropdown-trigger');
+    trigger.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const willOpen = !dropdown.classList.contains('is-open');
+      closeAllDropdowns();
+      if (willOpen) {
+        dropdown.classList.add('is-open');
+        trigger.setAttribute('aria-expanded', 'true');
+      }
+    });
+    dropdown.querySelectorAll('.nav-dropdown-menu a').forEach((link) => {
+      link.addEventListener('click', () => closeAllDropdowns());
+    });
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.nav-item-dropdown')) closeAllDropdowns();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeAllDropdowns();
+  });
 
   /* ── Intersection Observer for reveal animations ── */
   const observerConfig = { threshold: 0.12, rootMargin: '0px 0px -40px 0px' };
