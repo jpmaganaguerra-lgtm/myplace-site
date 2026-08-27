@@ -603,66 +603,53 @@
     padding: 140px 60px;
     position: relative; overflow: hidden;
   }
-  .portfolio-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
-  .portfolio-map {
-    position: relative; aspect-ratio: 1; max-width: 560px;
-    background: rgba(245,240,232,0.02); border: 1px solid rgba(245,240,232,0.12);
-    overflow: hidden;
-  }
-  .mexico-map { width: 100%; height: 100%; display: block; }
-  .mexico-map-shape {
-    fill: var(--bone); fill-opacity: 0.035;
-    stroke: var(--bone); stroke-opacity: 0.4; stroke-width: 2;
-    stroke-linejoin: round; stroke-linecap: round;
-  }
-  .market-pin-dot { fill: var(--olive); transition: fill 0.3s var(--ease-out); }
-  .market-pin-label {
-    fill: var(--bone); opacity: 0.55; font-family: var(--font-sans); font-size: 15px;
-    transition: opacity 0.3s var(--ease-out), fill 0.3s var(--ease-out);
-  }
-  .market-pin-pulse {
-    fill: none; stroke: var(--sand); stroke-width: 1; opacity: 0;
-  }
-  .market-pin.is-active .market-pin-dot { fill: var(--sand); }
-  .market-pin.is-active .market-pin-label { opacity: 1; fill: var(--sand); }
-  .market-pin.is-active .market-pin-pulse {
-    animation: mapPulse 2.6s ease-out infinite;
-  }
-  @keyframes mapPulse {
-    0% { opacity: 0.6; r: 6; }
-    100% { opacity: 0; r: 22; }
-  }
-  .portfolio-content .section-label { color: var(--olive-light); }
-  .portfolio-content .section-label::before { background: var(--olive-light); }
+  .portfolio-header { max-width: 640px; margin: 0 auto 56px; text-align: center; }
+  .portfolio-header .section-label { justify-content: center; }
+  .portfolio-content .section-label,
+  .portfolio-header .section-label { color: var(--olive-light); }
+  .portfolio-content .section-label::before,
+  .portfolio-header .section-label::before { background: var(--olive-light); }
   .portfolio-headline {
     font-family: var(--font-serif); font-size: clamp(36px, 3.5vw, 56px);
-    font-weight: 300; letter-spacing: -0.02em; color: var(--bone); margin-bottom: 24px;
+    font-weight: 300; letter-spacing: -0.02em; color: var(--bone); margin-bottom: 20px;
   }
   .portfolio-desc {
     font-size: 15px; font-weight: 300; line-height: 1.7;
-    color: rgba(245,240,232,0.4); margin-bottom: 48px;
+    color: rgba(245,240,232,0.4);
   }
-  .location-list { display: flex; flex-direction: column; gap: 0; }
+
+  /* Mapa como hero: banner ancho arriba de la sección */
+  .portfolio-map-hero {
+    position: relative; width: 100%; aspect-ratio: 21/9;
+    background: rgba(245,240,232,0.02); border: 1px solid rgba(245,240,232,0.12);
+    overflow: hidden; margin-bottom: 56px;
+  }
+  .portfolio-map-hero iframe {
+    position: absolute; inset: 0; width: 100%; height: 100%; border: 0;
+  }
+
+  .location-list {
+    display: flex; flex-wrap: wrap; justify-content: center;
+    gap: 0 56px; max-width: 1100px; margin: 0 auto;
+  }
   .location-item {
-    display: flex; align-items: center; justify-content: space-between;
-    width: 100%; padding: 16px 0; border-bottom: 1px solid rgba(245,240,232,0.07);
-    cursor: pointer; transition: color 0.2s;
-    background: none; border-left: none; border-right: none; border-top: none;
-    text-align: left; font: inherit;
+    display: flex; align-items: center; gap: 10px;
+    padding: 16px 0; border-bottom: 1px solid rgba(245,240,232,0.07);
   }
-  .location-item:hover .location-name { color: var(--sand); }
-  .location-item.is-active .location-name { color: var(--sand); }
-  .location-item.is-active .location-count { color: var(--olive-light); }
   .location-name {
-    font-family: var(--font-serif); font-size: 20px; font-weight: 300;
-    color: rgba(245,240,232,0.7); transition: color 0.2s;
+    font-family: var(--font-serif); font-size: 18px; font-weight: 300;
+    color: rgba(245,240,232,0.75);
   }
   .location-count {
-    font-size: 11px; letter-spacing: 0.12em; color: rgba(245,240,232,0.25);
-    font-family: var(--font-sans); white-space: nowrap; margin-left: 16px;
-    transition: color 0.2s;
+    font-size: 10px; letter-spacing: 0.12em; color: rgba(245,240,232,0.3);
+    font-family: var(--font-sans); white-space: nowrap;
+  }
+  @media (max-width: 900px) {
+    .portfolio-map-hero { aspect-ratio: 4/3; }
   }
   @media (max-width: 600px) {
+    .location-list { flex-direction: column; gap: 0; width: 100%; }
+    .location-item { width: 100%; justify-content: space-between; }
     .location-name { font-size: 17px; }
   }
 
