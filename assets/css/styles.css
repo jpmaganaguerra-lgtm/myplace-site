@@ -203,19 +203,18 @@
   }
 
   .hero-content { position: relative; z-index: 2; max-width: 900px; }
-  .hero-eyebrow, .hero-title, .hero-subtitle, .hero-actions {
+  .hero-eyebrow, .hero-title, .hero-subtitle {
     opacity: 0; transform: translateY(18px);
     animation: heroRise 1s var(--ease-out) forwards;
   }
   .hero-eyebrow { animation-delay: 0.15s; }
   .hero-title { animation-delay: 0.3s; }
   .hero-subtitle { animation-delay: 0.5s; }
-  .hero-actions { animation-delay: 0.65s; }
   @keyframes heroRise {
     to { opacity: 1; transform: translateY(0); }
   }
   @media (prefers-reduced-motion: reduce) {
-    .hero-eyebrow, .hero-title, .hero-subtitle, .hero-actions {
+    .hero-eyebrow, .hero-title, .hero-subtitle {
       animation: none; opacity: 1; transform: none;
     }
   }
@@ -324,52 +323,74 @@
     font-size: 16px; font-weight: 300; line-height: 1.7;
     color: rgba(26,24,20,0.55); max-width: 500px; margin-bottom: 80px;
   }
-  .audience-tags {
-    display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 80px;
-  }
-  .audience-tag {
-    font-size: 12px; letter-spacing: 0.06em;
-    color: var(--olive); border: 1px solid rgba(107,101,90,0.3);
-    padding: 6px 14px; font-weight: 400;
-  }
   .serve-cards {
     display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px;
   }
   .serve-card {
     background: var(--marble);
     padding: 52px 44px; cursor: pointer;
-    transition: background 0.3s var(--ease-out);
-    position: relative; overflow: hidden;
+    position: relative; overflow: hidden; isolation: isolate;
     opacity: 0; transform: translateY(24px);
-    transition: opacity 0.6s var(--ease-out), transform 0.6s var(--ease-out), background 0.3s;
+    transition: opacity 0.6s var(--ease-out), transform 0.6s var(--ease-out), background 0.4s var(--ease-out);
   }
   .serve-card.visible { opacity: 1; transform: translateY(0); }
+  /* Fondo de imagen: se coloca via style="background-image:url(...)" en el
+     HTML de cada tarjeta. Mientras no exista el archivo en esa ruta, no pasa
+     nada raro — la tarjeta simplemente se ve con su fondo oscuro normal al
+     hacer hover, sin imagen rota. En cuanto se agregue la foto en
+     assets/images/who-we-serve/, aparece sola. */
+  .serve-card-bg {
+    position: absolute; inset: 0; z-index: 0;
+    background-size: cover; background-position: center;
+    opacity: 0; transform: scale(1.08);
+    transition: opacity 0.6s var(--ease-out), transform 6s var(--ease-out);
+  }
+  .serve-card-overlay {
+    position: absolute; inset: 0; z-index: 1;
+    background: linear-gradient(180deg, rgba(26,24,20,0.5) 0%, rgba(19,18,15,0.9) 100%);
+    opacity: 0; transition: opacity 0.5s var(--ease-out);
+  }
   .serve-card::after {
-    content: ''; position: absolute; bottom: 0; left: 0; right: 0;
-    height: 2px; background: var(--olive); transform: scaleX(0);
+    content: ''; position: absolute; bottom: 0; left: 0; right: 0; z-index: 2;
+    height: 2px; background: var(--sand); transform: scaleX(0);
     transition: transform 0.3s var(--ease-out); transform-origin: left;
   }
-  .serve-card:hover { background: var(--greige); }
+  .serve-card:hover { background: var(--charcoal); }
+  .serve-card:hover .serve-card-bg { opacity: 1; transform: scale(1); }
+  .serve-card:hover .serve-card-overlay { opacity: 1; }
   .serve-card:hover::after { transform: scaleX(1); }
   .serve-card-icon {
+    position: relative; z-index: 2;
     width: 40px; height: 40px; margin-bottom: 36px;
     border: 1px solid rgba(26,24,20,0.15);
     display: flex; align-items: center; justify-content: center;
+    transition: border-color 0.4s var(--ease-out);
   }
-  .serve-card-icon svg { width: 18px; height: 18px; stroke: var(--olive); fill: none; stroke-width: 1.2; }
+  .serve-card-icon svg { width: 18px; height: 18px; stroke: var(--olive); fill: none; stroke-width: 1.2; transition: stroke 0.4s var(--ease-out); }
+  .serve-card:hover .serve-card-icon { border-color: rgba(245,240,232,0.3); }
+  .serve-card:hover .serve-card-icon svg { stroke: var(--sand); }
   .serve-card-title {
+    position: relative; z-index: 2;
     font-family: var(--font-serif); font-size: 28px; font-weight: 400;
     color: var(--charcoal); margin-bottom: 16px; line-height: 1.1;
+    transition: color 0.4s var(--ease-out);
   }
+  .serve-card:hover .serve-card-title { color: var(--bone); }
   .serve-card-desc {
+    position: relative; z-index: 2;
     font-size: 13px; font-weight: 300; line-height: 1.7;
     color: rgba(26,24,20,0.55); margin-bottom: 36px;
+    transition: color 0.4s var(--ease-out);
   }
+  .serve-card:hover .serve-card-desc { color: rgba(245,240,232,0.75); }
   .serve-card-link {
+    position: relative; z-index: 2;
     font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase;
     color: var(--olive); text-decoration: none; display: flex;
     align-items: center; gap: 10px; font-weight: 400;
+    transition: color 0.4s var(--ease-out);
   }
+  .serve-card:hover .serve-card-link { color: var(--sand); }
   .serve-card-link::after {
     content: '→'; transition: transform 0.2s;
   }
@@ -1148,4 +1169,28 @@
     .metrics-grid { grid-template-columns: 1fr 1fr; }
     .footer-top { grid-template-columns: 1fr; }
     .footer-bottom { flex-direction: column; gap: 16px; text-align: center; }
+  }
+
+  /* ── WhatsApp flotante ── */
+  .whatsapp-fab {
+    position: fixed; left: 28px; bottom: 28px; z-index: 500;
+    width: 56px; height: 56px; border-radius: 50%;
+    background: var(--charcoal); border: 1px solid rgba(245,240,232,0.18);
+    display: flex; align-items: center; justify-content: center;
+    transition: transform 0.35s var(--ease-out), background 0.35s var(--ease-out), border-color 0.35s var(--ease-out), box-shadow 0.35s var(--ease-out);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+  }
+  .whatsapp-fab svg {
+    width: 24px; height: 24px; fill: var(--bone);
+    transition: fill 0.35s var(--ease-out);
+  }
+  .whatsapp-fab:hover {
+    background: var(--bone); border-color: var(--bone);
+    transform: translateY(-3px) scale(1.06);
+    box-shadow: 0 14px 32px rgba(0,0,0,0.4);
+  }
+  .whatsapp-fab:hover svg { fill: var(--ink); }
+  @media (max-width: 600px) {
+    .whatsapp-fab { left: 20px; bottom: 20px; width: 50px; height: 50px; }
+    .whatsapp-fab svg { width: 22px; height: 22px; }
   }
