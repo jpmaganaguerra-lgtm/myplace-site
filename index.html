@@ -387,101 +387,40 @@
 
 <!-- ══ PORTFOLIO MAP ══ -->
 <section class="portfolio" id="markets">
-  <div class="portfolio-inner">
-    <div class="portfolio-content">
-      <div class="section-label">Portfolio</div>
-      <h2 class="portfolio-headline reveal">Where We<br>Operate</h2>
-      <p class="portfolio-desc reveal">A growing presence across Mexico's most important hospitality markets, with operations in coastal, urban and emerging destinations.</p>
-      <div class="location-list" id="markets-list">
-        <button class="location-item is-active" data-market="roma-condesa">
-          <span class="location-name">Ciudad de México — Roma / Condesa</span>
-          <span class="location-count">Active</span>
-        </button>
-        <button class="location-item" data-market="centro">
-          <span class="location-name">Ciudad de México — Centro</span>
-          <span class="location-count">Active</span>
-        </button>
-        <button class="location-item" data-market="acapulco">
-          <span class="location-name">Acapulco</span>
-          <span class="location-count">Active</span>
-        </button>
-        <button class="location-item" data-market="huatulco">
-          <span class="location-name">Huatulco</span>
-          <span class="location-count">Expanding</span>
-        </button>
-        <button class="location-item" data-market="san-jose-del-cabo">
-          <span class="location-name">San José del Cabo</span>
-          <span class="location-count">Expanding</span>
-        </button>
-      </div>
-    </div>
-    <div class="portfolio-map" id="portfolio-map">
-      <svg class="mexico-map" viewBox="0 0 1000 750" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Mapa de México con los mercados donde opera MYPLACE">
-        <!-- Continente -->
-        <path class="mexico-map-shape" d="
-          M 280,60
-          C 350,45 480,35 560,55
-          C 590,65 610,78 620,90
-          C 650,115 670,140 680,160
-          C 700,190 712,210 720,230
-          C 716,255 708,275 695,290
-          C 700,310 705,330 700,345
-          C 720,360 715,375 700,415
-          C 730,400 770,382 810,378
-          C 845,382 875,395 895,415
-          C 902,435 895,452 875,468
-          C 845,482 810,485 780,478
-          C 760,470 745,470 730,490
-          C 715,510 705,522 690,535
-          C 665,545 645,548 630,555
-          C 620,570 610,585 600,595
-          C 585,585 575,570 570,565
-          C 550,580 530,575 520,568
-          C 508,562 500,558 495,558
-          C 470,552 450,540 430,525
-          C 400,505 375,485 355,460
-          C 330,430 310,395 295,355
-          C 280,315 270,270 264,225
-          C 260,195 258,170 262,150
-          C 265,120 272,90 280,60
-          Z"/>
-        <!-- Baja California -->
-        <path class="mexico-map-shape" d="
-          M 195,50
-          C 175,75 155,105 140,140
-          C 122,180 112,225 108,270
-          C 106,310 110,345 122,378
-          C 135,405 152,428 172,448
-          C 180,455 188,458 195,458
-          C 202,450 195,435 185,420
-          C 172,400 162,378 156,352
-          C 150,320 148,285 150,250
-          C 154,210 164,172 178,138
-          C 190,110 202,82 212,58
-          C 205,52 200,50 195,50
-          Z"/>
+  <div class="portfolio-header reveal">
+    <div class="section-label">Portfolio</div>
+    <h2 class="portfolio-headline">Where We Operate</h2>
+    <p class="portfolio-desc">A growing presence across Mexico's most important hospitality markets, with operations in coastal, urban and emerging destinations.</p>
+  </div>
 
-        <g class="market-pin is-active" data-market="cdmx">
-          <circle class="market-pin-pulse" cx="500" cy="500" r="14"/>
-          <circle class="market-pin-dot" cx="500" cy="500" r="6"/>
-          <text class="market-pin-label" x="516" y="497">Ciudad de México</text>
-        </g>
-        <g class="market-pin" data-market="acapulco">
-          <circle class="market-pin-pulse" cx="495" cy="558" r="14"/>
-          <circle class="market-pin-dot" cx="495" cy="558" r="6"/>
-          <text class="market-pin-label" x="440" y="580">Acapulco</text>
-        </g>
-        <g class="market-pin" data-market="huatulco">
-          <circle class="market-pin-pulse" cx="600" cy="595" r="14"/>
-          <circle class="market-pin-dot" cx="600" cy="595" r="6"/>
-          <text class="market-pin-label" x="590" y="618">Huatulco</text>
-        </g>
-        <g class="market-pin" data-market="san-jose-del-cabo">
-          <circle class="market-pin-pulse" cx="195" cy="458" r="14"/>
-          <circle class="market-pin-dot" cx="195" cy="458" r="6"/>
-          <text class="market-pin-label" x="80" y="478">San José del Cabo</text>
-        </g>
-      </svg>
+  <div class="portfolio-map-hero reveal">
+    <iframe
+      src="https://www.google.com/maps/d/u/0/embed?mid=10LRRKiVZoJPaU7sJqJfbQHu6Kny7S8A&ehbc=2E312F&noprof=1"
+      loading="lazy"
+      referrerpolicy="no-referrer-when-downgrade"
+      title="Mapa de mercados donde opera MYPLACE"></iframe>
+  </div>
+
+  <div class="location-list" id="markets-list">
+    <div class="location-item">
+      <span class="location-name">Ciudad de México — Roma / Condesa</span>
+      <span class="location-count">Active</span>
+    </div>
+    <div class="location-item">
+      <span class="location-name">Ciudad de México — Centro</span>
+      <span class="location-count">Active</span>
+    </div>
+    <div class="location-item">
+      <span class="location-name">Acapulco</span>
+      <span class="location-count">Active</span>
+    </div>
+    <div class="location-item">
+      <span class="location-name">Huatulco</span>
+      <span class="location-count">Expanding</span>
+    </div>
+    <div class="location-item">
+      <span class="location-name">San José del Cabo</span>
+      <span class="location-count">Expanding</span>
     </div>
   </div>
 </section>
