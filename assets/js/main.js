@@ -134,12 +134,17 @@
 
   /* ── Where We Operate: market switcher ── */
   const marketButtons = document.querySelectorAll('#markets-list .location-item');
-  const marketFrames = document.querySelectorAll('.market-map-frame');
+  const marketPins = document.querySelectorAll('.market-pin');
+  // Roma/Condesa y Centro son dos renglones de la lista pero un solo punto
+  // en el mapa (son la misma ciudad) — se resuelven al mismo pin "cdmx".
+  const pinForMarket = (market) => (market === 'roma-condesa' || market === 'centro') ? 'cdmx' : market;
+
   marketButtons.forEach((btn) => {
     btn.addEventListener('click', () => {
       const market = btn.dataset.market;
       marketButtons.forEach(b => b.classList.toggle('is-active', b === btn));
-      marketFrames.forEach(f => f.classList.toggle('is-active', f.dataset.market === market));
+      const activePin = pinForMarket(market);
+      marketPins.forEach(p => p.classList.toggle('is-active', p.dataset.market === activePin));
     });
   });
 
