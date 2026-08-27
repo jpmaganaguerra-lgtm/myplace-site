@@ -618,14 +618,26 @@
     color: rgba(245,240,232,0.4);
   }
 
-  /* Mapa como hero: banner ancho arriba de la sección */
+  /* Mapa como hero: banner ancho a todo el ancho de la pantalla, sin
+     importar el padding lateral de la sección (full-bleed). */
   .portfolio-map-hero {
-    position: relative; width: 100%; aspect-ratio: 21/9;
-    background: rgba(245,240,232,0.02); border: 1px solid rgba(245,240,232,0.12);
+    position: relative;
+    left: 50%; right: 50%; margin-left: -50vw; margin-right: -50vw;
+    width: 100vw; aspect-ratio: 21/9;
+    background: rgba(245,240,232,0.02);
     overflow: hidden; margin-bottom: 56px;
   }
+  /* Google My Maps agrega una barra de título fija arriba del embed
+     ("My Place Portafolio", info, compartir, pantalla completa) que no se
+     puede quitar por URL. La recortamos: el iframe se hace más alto que el
+     contenedor y se desplaza hacia arriba esa misma cantidad, así el
+     contenedor (overflow:hidden) solo deja ver el mapa, no la barra.
+     --map-crop es la altura aproximada de esa barra; ajustar si Google
+     cambia su diseño y vuelve a asomarse un filo de la barra. */
   .portfolio-map-hero iframe {
-    position: absolute; inset: 0; width: 100%; height: 100%; border: 0;
+    --map-crop: 94px;
+    position: absolute; left: 0; top: calc(-1 * var(--map-crop));
+    width: 100%; height: calc(100% + var(--map-crop)); border: 0;
   }
 
   .location-list {
