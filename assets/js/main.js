@@ -132,22 +132,6 @@
     }, 4000);
   }
 
-  /* ── Where We Operate: market switcher ── */
-  const marketButtons = document.querySelectorAll('#markets-list .location-item');
-  const marketPins = document.querySelectorAll('.market-pin');
-  // Roma/Condesa y Centro son dos renglones de la lista pero un solo punto
-  // en el mapa (son la misma ciudad) — se resuelven al mismo pin "cdmx".
-  const pinForMarket = (market) => (market === 'roma-condesa' || market === 'centro') ? 'cdmx' : market;
-
-  marketButtons.forEach((btn) => {
-    btn.addEventListener('click', () => {
-      const market = btn.dataset.market;
-      marketButtons.forEach(b => b.classList.toggle('is-active', b === btn));
-      const activePin = pinForMarket(market);
-      marketPins.forEach(p => p.classList.toggle('is-active', p.dataset.market === activePin));
-    });
-  });
-
   /* ── Atelier ── */
   /* Las tarjetas se generan desde /content/atelier.json, que
      scripts/build-atelier.mjs regenera automáticamente en cada build a
