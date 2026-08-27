@@ -609,17 +609,28 @@
     background: rgba(245,240,232,0.02); border: 1px solid rgba(245,240,232,0.12);
     overflow: hidden;
   }
-  /* Mapa real de Google (embed sin API key). El filtro en escala de grises
-     es lo más cerca que se puede llegar a la paleta monocromática del sitio
-     sin un estilo de mapa personalizado, que requiere API key. */
-  .market-map-frame {
-    position: absolute; inset: 0; width: 100%; height: 100%; border: 0;
-    filter: grayscale(1) contrast(1.08) brightness(0.92);
-    opacity: 0; visibility: hidden; pointer-events: none;
-    transition: opacity 0.5s var(--ease-out), visibility 0.5s;
+  .mexico-map { width: 100%; height: 100%; display: block; }
+  .mexico-map-shape {
+    fill: var(--bone); fill-opacity: 0.035;
+    stroke: var(--bone); stroke-opacity: 0.4; stroke-width: 2;
+    stroke-linejoin: round; stroke-linecap: round;
   }
-  .market-map-frame.is-active {
-    opacity: 1; visibility: visible; pointer-events: auto;
+  .market-pin-dot { fill: var(--olive); transition: fill 0.3s var(--ease-out); }
+  .market-pin-label {
+    fill: var(--bone); opacity: 0.55; font-family: var(--font-sans); font-size: 15px;
+    transition: opacity 0.3s var(--ease-out), fill 0.3s var(--ease-out);
+  }
+  .market-pin-pulse {
+    fill: none; stroke: var(--sand); stroke-width: 1; opacity: 0;
+  }
+  .market-pin.is-active .market-pin-dot { fill: var(--sand); }
+  .market-pin.is-active .market-pin-label { opacity: 1; fill: var(--sand); }
+  .market-pin.is-active .market-pin-pulse {
+    animation: mapPulse 2.6s ease-out infinite;
+  }
+  @keyframes mapPulse {
+    0% { opacity: 0.6; r: 6; }
+    100% { opacity: 0; r: 22; }
   }
   .portfolio-content .section-label { color: var(--olive-light); }
   .portfolio-content .section-label::before { background: var(--olive-light); }
