@@ -53,19 +53,28 @@
 
 <!-- ══ HERO ══ -->
 <section class="hero" id="home">
-  <video
-    class="hero-video"
-    autoplay
-    muted
-    loop
-    playsinline
-    preload="metadata"
-    aria-hidden="true"
-    tabindex="-1"
-    poster="assets/images/poster.webp">
-    <source src="assets/video/hero.webm" type="video/webm">
-    <source src="assets/video/hero.mp4" type="video/mp4">
-  </video>
+  <!-- Marquesina de hero: rotación automática con crossfade, sin
+       interacción del usuario. Para agregar más videos, solo duplica un
+       bloque .hero-video-slide con sus propios archivos — el JS los detecta
+       automáticamente, no hace falta tocar código. -->
+  <div class="hero-video-stack" aria-hidden="true">
+    <div class="hero-video-slide is-active">
+      <video
+        muted loop playsinline preload="metadata"
+        poster="assets/images/poster.webp">
+        <source src="assets/video/hero.webm" type="video/webm">
+        <source src="assets/video/hero.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="hero-video-slide">
+      <video
+        muted loop playsinline preload="none"
+        poster="assets/images/poster-2.webp">
+        <source src="assets/video/hero-2.webm" type="video/webm">
+        <source src="assets/video/hero-2.mp4" type="video/mp4">
+      </video>
+    </div>
+  </div>
   <div class="hero-overlay" aria-hidden="true"></div>
   <div class="hero-content">
     <p class="hero-eyebrow">
