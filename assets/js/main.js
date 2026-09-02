@@ -1,4 +1,58 @@
-/* ── Nav scroll behavior ── */
+/* ── Hero: marquesina de videos ── */
+  /* Rotación automática con crossfade, sin interacción del usuario.
+     Funciona con cualquier cantidad de .hero-video-slide — para agregar un
+     tercer video, cuarto, etc., solo hay que duplicar el bloque HTML en el
+     hero con sus propios archivos; este código los detecta solo. */
+  (function heroMarquee() {
+    const slides = Array.from(document.querySelectorAll('.hero-video-slide'));
+    if (slides.length === 0) return;
+
+    const SLIDE_DURATION = 8000; // ms que cada video permanece activo
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const videoOf = (slide) => slide.querySelector('video');
+
+    // Deja el primer video listo para reproducir de inmediato (es el LCP).
+    const first = videoOf(slides[0]);
+    if (first) {
+      first.play().catch(() => {});
+    }
+
+    if (slides.length < 2 || reducedMotion) return;
+
+    // Precarga el siguiente video con un poco de anticipación para que el
+    // crossfade no se vea con un salto/carga a medias.
+    function preload(index) {
+      const v = videoOf(slides[index]);
+      if (v && v.preload !== 'auto') {
+        v.preload = 'auto';
+        v.load();
+      }
+    }
+    preload(1);
+
+    let current = 0;
+    setInterval(() => {
+      const next = (current + 1) % slides.length;
+      const currentVideo = videoOf(slides[current]);
+      const nextVideo = videoOf(slides[next]);
+
+      slides[current].classList.remove('is-active');
+      slides[next].classList.add('is-active');
+      if (nextVideo) {
+        nextVideo.currentTime = 0;
+        nextVideo.play().catch(() => {});
+      }
+      // Pausar el saliente tras completar el fade, para no gastar recursos
+      // reproduciendo un video que no se ve.
+      setTimeout(() => currentVideo && currentVideo.pause(), 1500);
+
+      preload((next + 1) % slides.length);
+      current = next;
+    }, SLIDE_DURATION);
+  })();
+
+  /* ── Nav scroll behavior ── */
   const nav = document.getElementById('main-nav');
   window.addEventListener('scroll', () => {
     nav.classList.toggle('scrolled', window.scrollY > 40);
