@@ -306,6 +306,53 @@
     color: rgba(245,240,232,0.45); font-weight: 400;
   }
 
+  /* ── Powered By / Channel & Tech Partners ── */
+  .partners-marquee {
+    background: var(--ink);
+    padding: 44px 0;
+    border-top: 1px solid rgba(245,240,232,0.06);
+  }
+  .partners-label {
+    text-align: center;
+    font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: rgba(245,240,232,0.3); font-family: var(--font-sans);
+    margin-bottom: 28px;
+  }
+  .partners-track {
+    display: flex;
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 8%, #000 92%, transparent 100%);
+    mask-image: linear-gradient(90deg, transparent 0%, #000 8%, #000 92%, transparent 100%);
+  }
+  .partners-track-inner {
+    display: flex; align-items: center; gap: 64px;
+    flex-shrink: 0;
+    padding-right: 64px;
+    animation: partnersScroll 32s linear infinite;
+  }
+  .partners-marquee:hover .partners-track-inner { animation-play-state: paused; }
+  @keyframes partnersScroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-100%); }
+  }
+  .partner-name {
+    font-family: var(--font-serif); font-style: italic; font-weight: 300;
+    font-size: 22px; white-space: nowrap;
+    color: rgba(245,240,232,0.35);
+    transition: color 0.3s var(--ease-out);
+  }
+  .partner-name:hover { color: var(--sand); }
+  @media (prefers-reduced-motion: reduce) {
+    .partners-track-inner { animation: none; }
+    .partners-track-inner[aria-hidden="true"] { display: none; }
+    .partners-track { flex-wrap: wrap; justify-content: center; }
+    .partners-track-inner { flex-wrap: wrap; justify-content: center; }
+  }
+  @media (max-width: 600px) {
+    .partner-name { font-size: 18px; }
+    .partners-track-inner { gap: 44px; padding-right: 44px; }
+  }
+
   /* ── Who We Serve ── */
   .who-serve {
     background: var(--warm-white);
