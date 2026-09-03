@@ -1,27 +1,29 @@
 /* ── Hero: marquesina de videos ── */
   /* Rotación automática con crossfade, sin interacción del usuario.
-     Funciona con cualquier cantidad de .hero-video-slide — para agregar un
-     tercer video, cuarto, etc., solo hay que duplicar el bloque HTML en el
-     hero con sus propios archivos; este código los detecta solo. */
+     Cada video avanza al siguiente cuando TERMINA de reproducirse (no en un
+     tiempo fijo) — así ningún clip hace loop a la mitad solo porque otro es
+     más largo, sin importar cuánto dure cada uno. Funciona con cualquier
+     cantidad de .hero-video-slide — para agregar un video más, solo hay
+     que duplicar el bloque HTML con sus propios archivos; este código los
+     detecta solo. */
   (function heroMarquee() {
     const slides = Array.from(document.querySelectorAll('.hero-video-slide'));
     if (slides.length === 0) return;
 
-    const SLIDE_DURATION = 8000; // ms que cada video permanece activo
+    const MIN_DWELL = 3000;   // por si un video fuera muy corto, no pasar de largo demasiado rápido
+    const FALLBACK_MAX = 20000; // por si 'ended' nunca llega (ej. autoplay bloqueado), no quedarse atorado
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     const videoOf = (slide) => slide.querySelector('video');
 
     // Deja el primer video listo para reproducir de inmediato (es el LCP).
     const first = videoOf(slides[0]);
-    if (first) {
-      first.play().catch(() => {});
-    }
+    if (first) first.play().catch(() => {});
 
     if (slides.length < 2 || reducedMotion) return;
 
-    // Precarga el siguiente video con un poco de anticipación para que el
-    // crossfade no se vea con un salto/carga a medias.
+    // Precarga el siguiente video con anticipación para que el crossfade no
+    // se vea con un salto/carga a medias.
     function preload(index) {
       const v = videoOf(slides[index]);
       if (v && v.preload !== 'auto') {
@@ -32,7 +34,12 @@
     preload(1);
 
     let current = 0;
-    setInterval(() => {
+    let advanced = false;
+
+    function goToNext() {
+      if (advanced) return; // evita doble avance si 'ended' y el fallback llegan casi juntos
+      advanced = true;
+
       const next = (current + 1) % slides.length;
       const currentVideo = videoOf(slides[current]);
       const nextVideo = videoOf(slides[next]);
@@ -49,7 +56,28 @@
 
       preload((next + 1) % slides.length);
       current = next;
-    }, SLIDE_DURATION);
+      armSlide(current);
+    }
+
+    function armSlide(index) {
+      advanced = false;
+      const video = videoOf(slides[index]);
+      const start = Date.now();
+      if (video) {
+        video.addEventListener('ended', () => {
+          const elapsed = Date.now() - start;
+          if (elapsed < MIN_DWELL) {
+            setTimeout(goToNext, MIN_DWELL - elapsed);
+          } else {
+            goToNext();
+          }
+        }, { once: true });
+      }
+      // Red de seguridad: si por lo que sea 'ended' nunca dispara, igual avanza.
+      setTimeout(goToNext, FALLBACK_MAX);
+    }
+
+    armSlide(0);
   })();
 
   /* ── Nav scroll behavior ── */
