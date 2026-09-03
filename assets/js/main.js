@@ -318,19 +318,31 @@
       // Preload solo la primera imagen real (si existe) — es la única con valor en el LCP
       cards[0]?.querySelector('img')?.setAttribute('loading', 'eager');
 
-      const pfObserver = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-          const idx = cards.indexOf(entry.target);
-          if (entry.intersectionRatio > 0.6) {
-            entry.target.classList.add('pf-active');
-            dots.forEach(d => d.classList.remove('pf-dot-active'));
-            if (dots[idx]) dots[idx].classList.add('pf-dot-active');
-          } else {
-            entry.target.classList.remove('pf-active');
-          }
+      // Detecta cuál tarjeta está más cerca del centro visual del track, en
+      // vez de un IntersectionObserver por umbral — en pantallas anchas más
+      // de una tarjeta puede estar 100% visible a la vez, y un umbral simple
+      // las marcaría "activas" a las dos al mismo tiempo.
+      function updateActiveCard() {
+        const trackRect = pfTrack.getBoundingClientRect();
+        const centerX = trackRect.left + trackRect.width / 2;
+        let closest = 0;
+        let closestDist = Infinity;
+        cards.forEach((card, i) => {
+          const r = card.getBoundingClientRect();
+          const cardCenter = r.left + r.width / 2;
+          const dist = Math.abs(cardCenter - centerX);
+          if (dist < closestDist) { closestDist = dist; closest = i; }
         });
-      }, { root: pfTrack, threshold: [0, 0.6, 1] });
-      cards.forEach(c => pfObserver.observe(c));
+        cards.forEach((c, i) => c.classList.toggle('pf-active', i === closest));
+        dots.forEach((d, i) => d.classList.toggle('pf-dot-active', i === closest));
+      }
+
+      let pfScrollTimeout;
+      pfTrack.addEventListener('scroll', () => {
+        clearTimeout(pfScrollTimeout);
+        pfScrollTimeout = setTimeout(updateActiveCard, 60);
+      }, { passive: true });
+      updateActiveCard();
 
       function step(direction) {
         const active = cards.find(c => c.classList.contains('pf-active')) || cards[0];
@@ -370,6 +382,128 @@
         pfTrack.classList.remove('dragging');
       });
       pfTrack.addEventListener('click', (e) => {
+        if (moved) { e.preventDefault(); moved = false; }
+      }, true);
+    }
+  }
+
+  /* ── Brands marquee (Our Brands) ── */
+  /* Mismo patrón que la marquesina de /portfolio: fetch de un JSON,
+     render de tarjetas, drag-to-scroll con mouse (touch nativo), flechas,
+     dots y teclado. Los datos viven en /content/brands.json — agregar,
+     quitar o reordenar marcas es editar ese archivo, sin tocar este código. */
+  const bmTrack = document.getElementById('bm-track');
+  if (bmTrack) {
+    const bmPrev = document.getElementById('bm-prev');
+    const bmNext = document.getElementById('bm-next');
+    const bmDots = document.getElementById('bm-dots');
+    const bmMarquee = document.getElementById('bm-marquee');
+
+    // Degradados monocromáticos de respaldo para marcas sin foto todavía —
+    // se ve intencional, nunca roto. Rotan si hay más marcas que colores.
+    const FALLBACK_GRADIENTS = [
+      'linear-gradient(160deg, #2A2820 0%, #1A1A14 40%, #2C2A20 100%)',
+      'linear-gradient(160deg, #242220 0%, #161512 40%, #262422 100%)',
+      'linear-gradient(160deg, #302E2A 0%, #201F1B 40%, #322F2B 100%)',
+    ];
+
+    fetch('/content/brands.json')
+      .then(res => (res.ok ? res.json() : []))
+      .then(brands => {
+        if (!Array.isArray(brands) || brands.length === 0) return;
+        renderBrands(brands);
+      })
+      .catch(() => {});
+
+    function renderBrands(brands) {
+      brands.forEach((b, i) => {
+        const card = document.createElement('a');
+        card.href = b.url || '#contact';
+        card.className = 'bm-card';
+        card.innerHTML = `
+          <div class="bm-card-bg" style="${b.image ? `background-image:url('${b.image}')` : `background:${FALLBACK_GRADIENTS[i % FALLBACK_GRADIENTS.length]}`}"></div>
+          <div class="bm-card-content">
+            <div class="bm-card-tag">${b.tag || ''}</div>
+            <div class="bm-card-name">${b.name}</div>
+            <div class="bm-card-desc">${b.description || ''}</div>
+            <span class="bm-card-cta">Explore</span>
+          </div>
+        `;
+        bmTrack.appendChild(card);
+
+        const dot = document.createElement('button');
+        dot.className = 'bm-dot';
+        dot.setAttribute('aria-label', `Ir a ${b.name}`);
+        dot.addEventListener('click', () => {
+          card.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+        });
+        bmDots.appendChild(dot);
+      });
+
+      const cards = Array.from(bmTrack.querySelectorAll('.bm-card'));
+      const dots = Array.from(bmDots.querySelectorAll('.bm-dot'));
+
+      // Detecta cuál tarjeta está más cerca del centro visual del track,
+      // en vez de un IntersectionObserver por umbral — con tarjetas anchas
+      // en pantallas grandes, más de una puede estar 100% visible a la vez,
+      // y un umbral simple las marcaría "activas" a las dos.
+      function updateActiveCard() {
+        const trackRect = bmTrack.getBoundingClientRect();
+        const centerX = trackRect.left + trackRect.width / 2;
+        let closest = 0;
+        let closestDist = Infinity;
+        cards.forEach((card, i) => {
+          const r = card.getBoundingClientRect();
+          const cardCenter = r.left + r.width / 2;
+          const dist = Math.abs(cardCenter - centerX);
+          if (dist < closestDist) { closestDist = dist; closest = i; }
+        });
+        cards.forEach((c, i) => c.classList.toggle('bm-active', i === closest));
+        dots.forEach((d, i) => d.classList.toggle('bm-dot-active', i === closest));
+      }
+
+      let bmScrollTimeout;
+      bmTrack.addEventListener('scroll', () => {
+        clearTimeout(bmScrollTimeout);
+        bmScrollTimeout = setTimeout(updateActiveCard, 60);
+      }, { passive: true });
+      updateActiveCard();
+
+      function step(direction) {
+        const active = cards.find(c => c.classList.contains('bm-active')) || cards[0];
+        const idx = cards.indexOf(active);
+        const target = cards[Math.min(cards.length - 1, Math.max(0, idx + direction))];
+        target.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+      }
+      bmPrev.addEventListener('click', () => step(-1));
+      bmNext.addEventListener('click', () => step(1));
+
+      bmTrack.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight') { e.preventDefault(); step(1); }
+        if (e.key === 'ArrowLeft') { e.preventDefault(); step(-1); }
+      });
+
+      // Drag-to-scroll con mouse (sin setPointerCapture — rompe la
+      // navegación nativa de los <a>, ver notas del marquee de portfolio).
+      let isDown = false, startX = 0, startScroll = 0, moved = false;
+      bmTrack.addEventListener('mousedown', (e) => {
+        isDown = true; moved = false;
+        bmTrack.classList.add('dragging');
+        startX = e.clientX;
+        startScroll = bmTrack.scrollLeft;
+      });
+      window.addEventListener('mousemove', (e) => {
+        if (!isDown) return;
+        const dx = e.clientX - startX;
+        if (Math.abs(dx) > 4) moved = true;
+        bmTrack.scrollLeft = startScroll - dx;
+      });
+      window.addEventListener('mouseup', () => {
+        if (!isDown) return;
+        isDown = false;
+        bmTrack.classList.remove('dragging');
+      });
+      bmTrack.addEventListener('click', (e) => {
         if (moved) { e.preventDefault(); moved = false; }
       }, true);
     }

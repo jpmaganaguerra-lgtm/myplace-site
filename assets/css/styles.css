@@ -544,67 +544,113 @@
   /* ── Brands ── */
   .brands {
     background: var(--bone);
-    padding: 140px 60px;
+    padding: 140px 0;
     color: var(--charcoal);
+    overflow: hidden;
   }
+  .brands .section-label, .brands-headline { padding: 0 60px; }
   .brands-headline {
     font-family: var(--font-serif); font-size: clamp(36px, 4.5vw, 68px);
     font-weight: 300; letter-spacing: -0.02em; line-height: 1.05;
-    color: var(--charcoal); margin-bottom: 80px;
+    color: var(--charcoal); margin-bottom: 64px;
   }
-  .brands-grid {
-    display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px;
+
+  /* Marquee tipo Cover Flow — mismo patrón que /portfolio: una tarjeta
+     activa al centro, las vecinas parcialmente visibles, arrastrable. */
+  .bm-marquee {
+    position: relative;
+    display: flex; align-items: center; justify-content: center;
   }
-  .brand-card {
+  .bm-track {
+    display: flex; align-items: stretch; gap: 32px;
+    padding: 0 calc(50vw - 220px);
+    overflow-x: auto; overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory; scroll-behavior: smooth;
+    cursor: grab; -webkit-overflow-scrolling: touch; scrollbar-width: none;
+  }
+  .bm-track::-webkit-scrollbar { display: none; }
+  .bm-track.dragging { cursor: grabbing; scroll-snap-type: none; scroll-behavior: auto; }
+  .bm-track:focus-visible { outline: 1px solid rgba(26,24,20,0.3); outline-offset: 8px; }
+
+  .bm-card {
+    flex: 0 0 auto; width: 440px;
+    scroll-snap-align: center;
     background: var(--marble); position: relative;
     aspect-ratio: 3/4; max-height: 560px;
     display: flex; flex-direction: column; justify-content: flex-end;
-    padding: 44px; overflow: hidden; cursor: pointer;
-    opacity: 0; transform: scale(0.98);
-    transition: opacity 0.6s var(--ease-out), transform 0.6s var(--ease-out);
+    padding: 44px; overflow: hidden;
+    text-decoration: none; color: inherit;
+    opacity: 0.4; transform: scale(0.9);
+    transition: opacity 0.5s var(--ease-out), transform 0.5s var(--ease-out);
+    user-select: none; -webkit-user-drag: none;
   }
-  .brand-card.visible { opacity: 1; transform: scale(1); }
-  .brand-card-bg {
+  .bm-card.bm-active { opacity: 1; transform: scale(1); }
+  .bm-card-bg {
     position: absolute; inset: 0; z-index: 0;
+    background-size: cover; background-position: center;
     transition: transform 0.7s var(--ease-out);
   }
-  .brand-card:hover .brand-card-bg { transform: scale(1.04); }
-  .brand-card-bg-myplace {
-    background: linear-gradient(160deg, #2A2820 0%, #1A1A14 40%, #2C2A20 100%);
-  }
-  .brand-card-bg-encuentro {
-    background: linear-gradient(160deg, #242220 0%, #161512 40%, #262422 100%);
-  }
-  .brand-card-bg-filomeno {
-    background: linear-gradient(160deg, #302E2A 0%, #201F1B 40%, #322F2B 100%);
-  }
-  /* Textured patterns within brand cards */
-  .brand-card-bg::after {
+  .bm-card.bm-active:hover .bm-card-bg { transform: scale(1.04); }
+  .bm-card-bg::after {
     content: ''; position: absolute; inset: 0;
-    background: radial-gradient(ellipse 80% 80% at 50% 30%, rgba(245,240,232,0.04) 0%, transparent 60%);
+    background: linear-gradient(0deg, rgba(13,12,10,0.85) 0%, rgba(13,12,10,0.25) 55%, rgba(13,12,10,0.05) 100%);
   }
-  .brand-card-content { position: relative; z-index: 2; }
-  .brand-card-tag {
+  .bm-card-content { position: relative; z-index: 2; }
+  .bm-card-tag {
     font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase;
     color: var(--olive-light); margin-bottom: 16px; font-weight: 400;
   }
-  .brand-card-name {
+  .bm-card-name {
     font-family: var(--font-serif); font-size: 32px; font-weight: 300;
     color: var(--bone); margin-bottom: 10px; line-height: 1;
     letter-spacing: 0.04em;
   }
-  .brand-card-desc {
+  .bm-card-desc {
     font-size: 13px; font-weight: 300; line-height: 1.6;
     color: rgba(245,240,232,0.45); margin-bottom: 28px;
   }
-  .brand-card-cta {
+  .bm-card-cta {
     font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase;
     color: var(--bone); text-decoration: none; display: flex;
     align-items: center; gap: 10px; font-weight: 400;
-    opacity: 0.7; transition: opacity 0.2s;
+    opacity: 0.7; transition: opacity 0.2s, transform 0.2s;
   }
-  .brand-card:hover .brand-card-cta { opacity: 1; }
-  .brand-card-cta::after { content: '→'; }
+  .bm-card.bm-active:hover .bm-card-cta { opacity: 1; }
+  .bm-card-cta::after { content: '→'; transition: transform 0.2s; }
+  .bm-card.bm-active:hover .bm-card-cta::after { transform: translateX(4px); }
+
+  .bm-arrow {
+    position: absolute; top: 50%; transform: translateY(-50%); z-index: 3;
+    width: 44px; height: 44px; border-radius: 50%;
+    border: 1px solid rgba(26,24,20,0.15);
+    background: rgba(245,240,232,0.6);
+    color: var(--charcoal); font-size: 16px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    transition: border-color 0.3s var(--ease-out), background 0.3s var(--ease-out), transform 0.3s var(--ease-out);
+  }
+  .bm-arrow:hover { border-color: rgba(26,24,20,0.35); background: var(--bone); transform: translateY(-52%); }
+  .bm-arrow-prev { left: 24px; }
+  .bm-arrow-next { right: 24px; }
+
+  .bm-dots { display: flex; justify-content: center; gap: 8px; margin-top: 40px; }
+  .bm-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: rgba(26,24,20,0.2); border: none; padding: 0;
+    cursor: pointer; transition: background 0.3s var(--ease-out), transform 0.3s var(--ease-out);
+  }
+  .bm-dot.bm-dot-active { background: var(--olive); transform: scale(1.4); }
+
+  @media (max-width: 900px) {
+    .bm-card { width: 340px; }
+    .bm-track { padding: 0 calc(50vw - 170px); }
+    .bm-arrow { display: none; }
+  }
+  @media (max-width: 600px) {
+    .brands .section-label, .brands-headline { padding: 0 28px; }
+    .bm-card { width: 78vw; padding: 32px; }
+    .bm-track { padding: 0 11vw; gap: 20px; }
+  }
 
   /* ── Case Studies ── */
   .case-studies {
@@ -1205,7 +1251,7 @@
     .platform-grid { grid-template-columns: repeat(2, 1fr); }
     .brands { padding: 100px 28px; }
     .brands-grid { grid-template-columns: 1fr; }
-    .brand-card { max-height: 380px; }
+    .bm-card { max-height: 380px; }
     .case-studies { padding: 100px 28px; }
     .case-study-item { grid-template-columns: 1fr; gap: 40px; }
     .portfolio { padding: 100px 28px; }

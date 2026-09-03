@@ -1,0 +1,26 @@
+[
+  {
+    "id": "myplace",
+    "name": "MYPLACE",
+    "tag": "Luxury Vacation Rentals",
+    "description": "Premium curated properties in Mexico's most sought-after destinations. A collection defined by design, privacy and exceptional service.",
+    "image": "",
+    "url": "#contact"
+  },
+  {
+    "id": "encuentro",
+    "name": "ENCUENTRO",
+    "tag": "Wellness Hospitality",
+    "description": "A wellness-first hospitality concept built around natural environments, mindful programming and restorative guest experiences.",
+    "image": "",
+    "url": "#contact"
+  },
+  {
+    "id": "casa-filomeno",
+    "name": "CASA FILOMENO",
+    "tag": "Boutique Hospitality",
+    "description": "Character-driven boutique properties with strong local identity — each one a distinct expression of place and culture.",
+    "image": "",
+    "url": "#contact"
+  }
+]
