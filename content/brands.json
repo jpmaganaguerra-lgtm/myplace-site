@@ -1,11 +1,11 @@
 [
   {
-    "id": "myplace",
-    "name": "MYPLACE",
-    "tag": "Luxury Vacation Rentals",
-    "description": "Premium curated properties in Mexico's most sought-after destinations. A collection defined by design, privacy and exceptional service.",
-    "image": "",
-    "url": "#contact"
+    "id": "thegallery",
+    "name": "The Gallery",
+    "tag": "The Gallery Condesa",
+    "description": "Hospedarte en The Gallery significa despertar rodeado de cultura, caminar por calles llenas de vida, descubrir cafés, galerías y restaurantes a pocos pasos, y regresar a un lugar tranquilo donde el diseño y la comodidad se encuentran.",
+    "image": "assets/brands/thegallery.webp",
+    "url": "the gallery.mx"
   },
   {
     "id": "encuentro",
