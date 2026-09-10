@@ -382,73 +382,69 @@
   }
   .serve-card {
     background: var(--marble);
-    padding: 52px 44px; cursor: pointer;
+    padding: 52px 44px;
     position: relative; overflow: hidden; isolation: isolate;
     opacity: 0; transform: translateY(24px);
-    transition: opacity 0.6s var(--ease-out), transform 0.6s var(--ease-out), background 0.4s var(--ease-out);
+    transition: opacity 0.6s var(--ease-out), transform 0.6s var(--ease-out), background 0.5s var(--ease-out);
   }
   .serve-card.visible { opacity: 1; transform: translateY(0); }
-  /* Fondo de imagen: se coloca via style="background-image:url(...)" en el
-     HTML de cada tarjeta. Mientras no exista el archivo en esa ruta, no pasa
-     nada raro — la tarjeta simplemente se ve con su fondo oscuro normal al
-     hacer hover, sin imagen rota. En cuanto se agregue la foto en
-     assets/images/who-we-serve/, aparece sola. */
+  /* Reveal tipo "iris": la foto aparece en un círculo que se expande desde
+     el punto exacto donde el cursor entra a la tarjeta (--mx/--my, fijados
+     por JS en mouseenter), no un fade parejo. Mientras no exista el archivo
+     de imagen en la ruta indicada, no pasa nada raro — se ve el fondo
+     charcoal normal, sin imagen rota. */
   .serve-card-bg {
     position: absolute; inset: 0; z-index: 0;
     background-size: cover; background-position: center;
-    opacity: 0; transform: scale(1.08);
-    transition: opacity 0.6s var(--ease-out), transform 6s var(--ease-out);
+    clip-path: circle(0% at var(--mx, 50%) var(--my, 50%));
+    transform: scale(1.12);
+    transition: clip-path 0.9s cubic-bezier(0.65, 0, 0.35, 1),
+                transform 3.5s var(--ease-out);
+  }
+  .serve-card:hover .serve-card-bg {
+    clip-path: circle(150% at var(--mx, 50%) var(--my, 50%));
+    transform: scale(1);
   }
   .serve-card-overlay {
     position: absolute; inset: 0; z-index: 1;
     background: linear-gradient(180deg, rgba(26,24,20,0.5) 0%, rgba(19,18,15,0.9) 100%);
-    opacity: 0; transition: opacity 0.5s var(--ease-out);
+    opacity: 0; transition: opacity 0.6s var(--ease-out) 0.1s;
   }
+  .serve-card:hover .serve-card-overlay { opacity: 1; }
   .serve-card::after {
     content: ''; position: absolute; bottom: 0; left: 0; right: 0; z-index: 2;
     height: 2px; background: var(--sand); transform: scaleX(0);
-    transition: transform 0.3s var(--ease-out); transform-origin: left;
+    transition: transform 0.5s var(--ease-out); transform-origin: left;
   }
   .serve-card:hover { background: var(--charcoal); }
-  .serve-card:hover .serve-card-bg { opacity: 1; transform: scale(1); }
-  .serve-card:hover .serve-card-overlay { opacity: 1; }
   .serve-card:hover::after { transform: scaleX(1); }
   .serve-card-icon {
     position: relative; z-index: 2;
     width: 40px; height: 40px; margin-bottom: 36px;
     border: 1px solid rgba(26,24,20,0.15);
     display: flex; align-items: center; justify-content: center;
-    transition: border-color 0.4s var(--ease-out);
+    transition: border-color 0.4s var(--ease-out), transform 0.5s var(--ease-out), opacity 0.4s var(--ease-out);
   }
   .serve-card-icon svg { width: 18px; height: 18px; stroke: var(--olive); fill: none; stroke-width: 1.2; transition: stroke 0.4s var(--ease-out); }
-  .serve-card:hover .serve-card-icon { border-color: rgba(245,240,232,0.3); }
+  .serve-card:hover .serve-card-icon { border-color: rgba(245,240,232,0.4); transform: scale(0.85); opacity: 0.7; }
   .serve-card:hover .serve-card-icon svg { stroke: var(--sand); }
   .serve-card-title {
     position: relative; z-index: 2;
     font-family: var(--font-serif); font-size: 28px; font-weight: 400;
     color: var(--charcoal); margin-bottom: 16px; line-height: 1.1;
-    transition: color 0.4s var(--ease-out);
+    transition: color 0.4s var(--ease-out), transform 0.5s var(--ease-out);
   }
-  .serve-card:hover .serve-card-title { color: var(--bone); }
+  .serve-card:hover .serve-card-title { color: var(--bone); transform: translateY(-4px); }
   .serve-card-desc {
     position: relative; z-index: 2;
     font-size: 13px; font-weight: 300; line-height: 1.7;
-    color: rgba(26,24,20,0.55); margin-bottom: 36px;
+    color: rgba(26,24,20,0.55); margin-bottom: 0;
     transition: color 0.4s var(--ease-out);
   }
-  .serve-card:hover .serve-card-desc { color: rgba(245,240,232,0.75); }
-  .serve-card-link {
-    position: relative; z-index: 2;
-    font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase;
-    color: var(--olive); text-decoration: none; display: flex;
-    align-items: center; gap: 10px; font-weight: 400;
-    transition: color 0.4s var(--ease-out);
+  .serve-card:hover .serve-card-desc { color: rgba(245,240,232,0.8); }
+  @media (prefers-reduced-motion: reduce) {
+    .serve-card-bg { transition: clip-path 0.4s ease; transform: none; }
   }
-  .serve-card:hover .serve-card-link { color: var(--sand); }
-  .serve-card-link::after {
-    content: '→'; transition: transform 0.2s;
-  }
-  .serve-card:hover .serve-card-link::after { transform: translateX(6px); }
 
   /* ── What We Do ── */
   .what-we-do {
@@ -469,27 +465,52 @@
     font-size: 15px; font-weight: 300; line-height: 1.7;
     color: rgba(245,240,232,0.45); max-width: 380px;
   }
-  .flow-steps { display: flex; flex-direction: column; gap: 0; padding-top: 20px; }
+  .flow-steps { display: flex; flex-direction: column; gap: 0; padding-top: 20px; position: relative; }
+  .flow-progress {
+    position: absolute; left: 26px; top: 0; bottom: 0; width: 1px;
+    background: rgba(245,240,232,0.08);
+  }
+  .flow-progress-fill {
+    position: absolute; left: 0; top: 0; width: 100%; height: 0%;
+    background: var(--sand);
+    transition: height 0.1s linear;
+  }
   .flow-step {
     padding: 40px 0; border-top: 1px solid rgba(245,240,232,0.08);
-    display: grid; grid-template-columns: 48px 1fr; gap: 28px;
-    align-items: start;
-    opacity: 0; transform: translateX(20px);
-    transition: opacity 0.5s var(--ease-out), transform 0.5s var(--ease-out);
+    display: grid; grid-template-columns: 90px 1fr; gap: 28px;
+    align-items: start; position: relative;
+    opacity: 0; transform: translateX(-56px) rotate(-1.5deg);
+    transition: opacity 0.7s var(--ease-out), transform 0.7s var(--ease-out),
+                background 0.3s, border-color 0.3s;
   }
-  .flow-step.visible { opacity: 1; transform: translateX(0); }
+  .flow-step:nth-child(even) { transform: translateX(56px) rotate(1.5deg); }
+  .flow-step.visible { opacity: 1; transform: translateX(0) rotate(0deg); }
   .flow-step:last-child { border-bottom: 1px solid rgba(245,240,232,0.08); }
+  .flow-step:hover { background: rgba(245,240,232,0.03); }
   .flow-num {
-    font-family: var(--font-serif); font-size: 13px; font-weight: 300;
-    color: rgba(245,240,232,0.25); padding-top: 4px;
+    font-family: var(--font-serif); font-size: 56px; font-weight: 300;
+    color: rgba(245,240,232,0.1); padding-top: 4px; line-height: 1;
+    position: relative; z-index: 1;
+    transform: scale(1.6);
+    transition: transform 0.8s var(--ease-out), color 0.4s var(--ease-out);
   }
+  .flow-step.visible .flow-num { transform: scale(1); }
+  .flow-step:hover .flow-num { color: var(--sand); }
   .flow-content-title {
     font-family: var(--font-serif); font-size: 26px; font-weight: 400;
     color: var(--bone); margin-bottom: 10px;
+    transition: transform 0.4s var(--ease-out), color 0.4s var(--ease-out);
   }
+  .flow-step:hover .flow-content-title { transform: translateX(10px); color: var(--sand); }
   .flow-content-desc {
     font-size: 13px; font-weight: 300; line-height: 1.7;
     color: rgba(245,240,232,0.4);
+    transition: transform 0.4s var(--ease-out);
+  }
+  .flow-step:hover .flow-content-desc { transform: translateX(10px); }
+  @media (prefers-reduced-motion: reduce) {
+    .flow-step { transform: none !important; }
+    .flow-num { transform: none !important; }
   }
 
   /* ── Platform ── */
@@ -512,11 +533,36 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 2px;
+    position: relative;
+  }
+  .platform-connections {
+    position: absolute; inset: 0; z-index: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    overflow: visible;
+  }
+  .platform-connection-line {
+    stroke: var(--olive-light);
+    stroke-width: 1;
+    fill: none;
+    opacity: 0.35;
+    transition: stroke-dashoffset 1.4s var(--ease-out), opacity 0.6s var(--ease-out);
+  }
+  .platform-connection-pulse {
+    fill: var(--sand);
+    opacity: 0;
+  }
+  .platform-connections.is-drawn .platform-connection-pulse {
+    opacity: 0.9;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .platform-connection-pulse { display: none; }
   }
   .platform-module {
     background: rgba(245,240,232,0.03);
     border: 1px solid rgba(245,240,232,0.06);
     padding: 40px 36px;
+    position: relative; z-index: 1;
     transition: background 0.3s, border-color 0.3s;
     cursor: default;
     opacity: 0; transform: translateY(16px);

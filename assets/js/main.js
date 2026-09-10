@@ -158,13 +158,50 @@
   document.querySelectorAll('.serve-card').forEach((el, i) => {
     el.style.transitionDelay = (i * 0.12) + 's';
     revealObserver.observe(el);
+
+    // Fija el origen del reveal circular en el punto exacto donde entra el
+    // cursor — no se actualiza mientras se mueve dentro, para que se sienta
+    // como una revelación deliberada y no un efecto de seguir al mouse.
+    el.addEventListener('mouseenter', (e) => {
+      const rect = el.getBoundingClientRect();
+      const x = ((e.clientX - rect.left) / rect.width) * 100;
+      const y = ((e.clientY - rect.top) / rect.height) * 100;
+      el.style.setProperty('--mx', x + '%');
+      el.style.setProperty('--my', y + '%');
+    });
   });
 
   // Flow steps
-  document.querySelectorAll('.flow-step').forEach((el, i) => {
+  const flowSteps = document.querySelectorAll('.flow-step');
+  flowSteps.forEach((el, i) => {
     el.style.transitionDelay = (i * 0.08) + 's';
     revealObserver.observe(el);
   });
+
+  // Barra de progreso: ligada directamente a la posición de scroll (no a un
+  // IntersectionObserver por paso), para que se sienta realmente conectada
+  // al avance del usuario y no salte en bloques.
+  const flowStepsContainer = document.getElementById('flow-steps');
+  const flowProgressFill = document.getElementById('flow-progress-fill');
+  if (flowStepsContainer && flowProgressFill) {
+    let flowRaf = null;
+    function updateFlowProgress() {
+      flowRaf = null;
+      const rect = flowStepsContainer.getBoundingClientRect();
+      const startY = window.innerHeight * 0.85;
+      const endY = window.innerHeight * 0.25 - rect.height;
+      const raw = (startY - rect.top) / (startY - endY);
+      const pct = Math.max(0, Math.min(1, raw)) * 100;
+      flowProgressFill.style.height = pct + '%';
+    }
+    window.addEventListener('scroll', () => {
+      if (flowRaf === null) flowRaf = requestAnimationFrame(updateFlowProgress);
+    }, { passive: true });
+    window.addEventListener('resize', () => {
+      if (flowRaf === null) flowRaf = requestAnimationFrame(updateFlowProgress);
+    });
+    updateFlowProgress();
+  }
 
   // Platform modules
   document.querySelectorAll('.platform-module').forEach((el, i) => {
@@ -467,6 +504,14 @@
         clearTimeout(bmScrollTimeout);
         bmScrollTimeout = setTimeout(updateActiveCard, 60);
       }, { passive: true });
+
+      // Arranca centrado en la 2da tarjeta, no en la primera. Se usa
+      // scrollLeft directo (no scrollIntoView) porque scrollIntoView puede
+      // arrastrar consigo el scroll vertical de toda la página si corre
+      // antes de que el layout termine de asentarse.
+      if (cards[1]) {
+        bmTrack.scrollLeft = cards[1].offsetLeft + cards[1].offsetWidth / 2 - bmTrack.clientWidth / 2;
+      }
       updateActiveCard();
 
       function step(direction) {
@@ -508,3 +553,102 @@
       }, true);
     }
   }
+
+  /* ── Our Platform: "Everything Connected" network animation ── */
+  /* Dibuja líneas SVG entre los nodos (los puntitos de cada módulo),
+     calculadas dinámicamente desde su posición real en el DOM — así
+     funciona sin importar cuántas columnas tenga el grid en cada tamaño de
+     pantalla, y se recalcula solo si la ventana cambia de tamaño. */
+  (function platformConnections() {
+    const grid = document.getElementById('platform-grid');
+    const svg = document.getElementById('platform-connections');
+    if (!grid || !svg) return;
+
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let drawn = false;
+
+    function getColumnCount() {
+      const style = getComputedStyle(grid);
+      return style.gridTemplateColumns.split(' ').filter(Boolean).length;
+    }
+
+    function draw() {
+      const dots = Array.from(grid.querySelectorAll('.platform-module-dot'));
+      if (dots.length === 0) return;
+
+      const gridRect = grid.getBoundingClientRect();
+      const cols = getColumnCount();
+      const points = dots.map((dot) => {
+        const r = dot.getBoundingClientRect();
+        return {
+          x: r.left + r.width / 2 - gridRect.left,
+          y: r.top + r.height / 2 - gridRect.top,
+        };
+      });
+
+      svg.innerHTML = '';
+      svg.setAttribute('width', gridRect.width);
+      svg.setAttribute('height', gridRect.height);
+      svg.classList.remove('is-drawn');
+
+      const pairs = [];
+      points.forEach((p, i) => {
+        const isLastInRow = (i + 1) % cols === 0;
+        if (!isLastInRow && points[i + 1]) pairs.push([p, points[i + 1]]); // vecino horizontal
+        if (points[i + cols]) pairs.push([p, points[i + cols]]); // vecino vertical
+      });
+
+      pairs.forEach(([a, b], i) => {
+        const length = Math.hypot(b.x - a.x, b.y - a.y);
+        const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        line.setAttribute('x1', a.x); line.setAttribute('y1', a.y);
+        line.setAttribute('x2', b.x); line.setAttribute('y2', b.y);
+        line.setAttribute('class', 'platform-connection-line');
+        line.style.strokeDasharray = String(length);
+        // Si ya se reveló una vez (esto es un redibujo por resize), se
+        // dibuja directo sin animar de nuevo desde cero.
+        line.style.strokeDashoffset = drawn ? '0' : String(length);
+        svg.appendChild(line);
+
+        if (!reducedMotion) {
+          const pulse = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+          pulse.setAttribute('r', '2.2');
+          pulse.setAttribute('class', 'platform-connection-pulse');
+          const motion = document.createElementNS('http://www.w3.org/2000/svg', 'animateMotion');
+          motion.setAttribute('dur', (4 + (i % 5) * 0.6).toFixed(1) + 's');
+          motion.setAttribute('repeatCount', 'indefinite');
+          motion.setAttribute('begin', (i * 0.35).toFixed(2) + 's');
+          motion.setAttribute('path', `M${a.x},${a.y} L${b.x},${b.y}`);
+          pulse.appendChild(motion);
+          svg.appendChild(pulse);
+        }
+      });
+
+      // La primera vez que la sección entra en vista, dispara el trazo de
+      // las líneas (y los pulsos) — reutiliza el mismo umbral que el resto
+      // de las animaciones de scroll del sitio.
+      if (drawn) {
+        svg.classList.add('is-drawn');
+        requestAnimationFrame(() => {
+          svg.querySelectorAll('.platform-connection-line').forEach(l => { l.style.strokeDashoffset = '0'; });
+        });
+      }
+    }
+
+    const sectionObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          drawn = true;
+          draw();
+          sectionObserver.disconnect();
+        }
+      });
+    }, { threshold: 0.2 });
+    sectionObserver.observe(grid);
+
+    let resizeTimeout;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(draw, 150);
+    });
+  })();
