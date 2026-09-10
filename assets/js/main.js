@@ -554,12 +554,16 @@
     }
   }
 
-  /* ── Our Platform: "Everything Connected" network animation ── */
-  /* Dibuja líneas SVG entre los nodos (los puntitos de cada módulo),
-     calculadas dinámicamente desde su posición real en el DOM — así
-     funciona sin importar cuántas columnas tenga el grid en cada tamaño de
-     pantalla, y se recalcula solo si la ventana cambia de tamaño. */
-  (function platformConnections() {
+  /* ── Our Platform: "Everything Connected" grid-line animation ── */
+  /* En vez de conectar cada módulo con sus vecinos (se veía como una
+     escalera desordenada), se anima la propia estructura de la cuadrícula:
+     una línea recta por cada división interna entre columnas y entre
+     filas, con un pulso de luz recorriéndola sin parar, y un pequeño nodo
+     en cada cruce. Coincide exactamente con las líneas reales del grid, así
+     que se siente integrado, no superpuesto. Se recalcula si cambia el
+     tamaño de ventana, y se omite en una sola columna (mobile) porque ahí
+     no hay nada que "conectar" visualmente. */
+  (function platformGridLines() {
     const grid = document.getElementById('platform-grid');
     const svg = document.getElementById('platform-connections');
     if (!grid || !svg) return;
@@ -567,66 +571,93 @@
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     let drawn = false;
 
-    function getColumnCount() {
-      const style = getComputedStyle(grid);
-      return style.gridTemplateColumns.split(' ').filter(Boolean).length;
+    function uniqueSorted(values, tolerance) {
+      const sorted = [...values].sort((a, b) => a - b);
+      const out = [];
+      sorted.forEach((v) => {
+        if (out.length === 0 || Math.abs(v - out[out.length - 1]) > tolerance) out.push(v);
+      });
+      return out;
     }
 
     function draw() {
-      const dots = Array.from(grid.querySelectorAll('.platform-module-dot'));
-      if (dots.length === 0) return;
+      const modules = Array.from(grid.querySelectorAll('.platform-module'));
+      if (modules.length < 2) return;
 
       const gridRect = grid.getBoundingClientRect();
-      const cols = getColumnCount();
-      const points = dots.map((dot) => {
-        const r = dot.getBoundingClientRect();
+      const rects = modules.map((m) => {
+        const r = m.getBoundingClientRect();
         return {
-          x: r.left + r.width / 2 - gridRect.left,
-          y: r.top + r.height / 2 - gridRect.top,
+          left: r.left - gridRect.left, right: r.right - gridRect.left,
+          top: r.top - gridRect.top, bottom: r.bottom - gridRect.top,
         };
       });
+
+      const colStarts = uniqueSorted(rects.map(r => r.left), 4);
+      const rowStarts = uniqueSorted(rects.map(r => r.top), 4);
 
       svg.innerHTML = '';
       svg.setAttribute('width', gridRect.width);
       svg.setAttribute('height', gridRect.height);
-      svg.classList.remove('is-drawn');
 
-      const pairs = [];
-      points.forEach((p, i) => {
-        const isLastInRow = (i + 1) % cols === 0;
-        if (!isLastInRow && points[i + 1]) pairs.push([p, points[i + 1]]); // vecino horizontal
-        if (points[i + cols]) pairs.push([p, points[i + cols]]); // vecino vertical
-      });
+      // En una sola columna no hay nada que animar — se omite del todo.
+      if (colStarts.length < 2) return;
 
-      pairs.forEach(([a, b], i) => {
-        const length = Math.hypot(b.x - a.x, b.y - a.y);
+      // Límites internos del grid: el punto medio del "gap" entre columna i
+      // e i+1 (y lo mismo para filas), no el borde exterior.
+      const colBoundaries = [];
+      for (let i = 0; i < colStarts.length - 1; i++) {
+        const rightOfCol = Math.max(...rects.filter(r => Math.abs(r.left - colStarts[i]) < 4).map(r => r.right));
+        const leftOfNext = colStarts[i + 1];
+        colBoundaries.push((rightOfCol + leftOfNext) / 2);
+      }
+      const rowBoundaries = [];
+      for (let i = 0; i < rowStarts.length - 1; i++) {
+        const bottomOfRow = Math.max(...rects.filter(r => Math.abs(r.top - rowStarts[i]) < 4).map(r => r.bottom));
+        const topOfNext = rowStarts[i + 1];
+        rowBoundaries.push((bottomOfRow + topOfNext) / 2);
+      }
+
+      const segments = [];
+      colBoundaries.forEach((x) => segments.push({ x1: x, y1: 0, x2: x, y2: gridRect.height }));
+      rowBoundaries.forEach((y) => segments.push({ x1: 0, y1: y, x2: gridRect.width, y2: y }));
+
+      segments.forEach((seg, i) => {
+        const length = Math.hypot(seg.x2 - seg.x1, seg.y2 - seg.y1);
         const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-        line.setAttribute('x1', a.x); line.setAttribute('y1', a.y);
-        line.setAttribute('x2', b.x); line.setAttribute('y2', b.y);
+        line.setAttribute('x1', seg.x1); line.setAttribute('y1', seg.y1);
+        line.setAttribute('x2', seg.x2); line.setAttribute('y2', seg.y2);
         line.setAttribute('class', 'platform-connection-line');
         line.style.strokeDasharray = String(length);
-        // Si ya se reveló una vez (esto es un redibujo por resize), se
-        // dibuja directo sin animar de nuevo desde cero.
         line.style.strokeDashoffset = drawn ? '0' : String(length);
         svg.appendChild(line);
 
         if (!reducedMotion) {
           const pulse = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-          pulse.setAttribute('r', '2.2');
+          pulse.setAttribute('r', '2.5');
           pulse.setAttribute('class', 'platform-connection-pulse');
           const motion = document.createElementNS('http://www.w3.org/2000/svg', 'animateMotion');
-          motion.setAttribute('dur', (4 + (i % 5) * 0.6).toFixed(1) + 's');
+          motion.setAttribute('dur', (5 + i * 1.1).toFixed(1) + 's');
           motion.setAttribute('repeatCount', 'indefinite');
-          motion.setAttribute('begin', (i * 0.35).toFixed(2) + 's');
-          motion.setAttribute('path', `M${a.x},${a.y} L${b.x},${b.y}`);
+          motion.setAttribute('begin', (i * 0.6).toFixed(2) + 's');
+          motion.setAttribute('path', `M${seg.x1},${seg.y1} L${seg.x2},${seg.y2}`);
           pulse.appendChild(motion);
           svg.appendChild(pulse);
         }
       });
 
-      // La primera vez que la sección entra en vista, dispara el trazo de
-      // las líneas (y los pulsos) — reutiliza el mismo umbral que el resto
-      // de las animaciones de scroll del sitio.
+      // Un pequeño nodo en cada cruce columna×fila — el punto donde
+      // "todo se conecta".
+      colBoundaries.forEach((x) => {
+        rowBoundaries.forEach((y) => {
+          const node = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+          node.setAttribute('cx', x); node.setAttribute('cy', y);
+          node.setAttribute('r', '3');
+          node.setAttribute('class', 'platform-connection-node');
+          svg.appendChild(node);
+        });
+      });
+
       if (drawn) {
         svg.classList.add('is-drawn');
         requestAnimationFrame(() => {
