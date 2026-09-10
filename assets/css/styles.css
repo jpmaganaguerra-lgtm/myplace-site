@@ -143,12 +143,37 @@
   .mobile-menu .nav-dropdown-menu a:hover { background: none; color: var(--bone); }
 
   .nav-cta {
+    position: relative;
+    display: inline-block;
+    overflow: hidden;
+    z-index: 0;
     font-family: var(--font-sans); font-size: 13px; font-weight: 400;
     color: var(--bone); border: 1px solid rgba(245,240,232,0.3);
     padding: 10px 22px; text-decoration: none; letter-spacing: 0.06em;
-    transition: background 0.2s, border-color 0.2s;
+    transition: color 0.5s var(--ease-out), border-color 0.4s var(--ease-out),
+                transform 0.4s var(--ease-out), box-shadow 0.4s var(--ease-out);
   }
-  .nav-cta:hover { background: rgba(245,240,232,0.08); border-color: rgba(245,240,232,0.6); }
+  .nav-cta::before {
+    content: '';
+    position: absolute; inset: 0; z-index: -1;
+    background: var(--bone);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.5s cubic-bezier(0.65, 0, 0.35, 1);
+  }
+  .nav-cta:hover {
+    color: var(--ink);
+    border-color: var(--bone);
+    transform: translateY(-1px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+  }
+  .nav-cta:hover::before { transform: scaleX(1); }
+  @media (prefers-reduced-motion: reduce) {
+    .nav-cta, .nav-cta::before { transition: color 0.2s, border-color 0.2s; }
+    .nav-cta:hover { transform: none; }
+    .nav-cta::before { display: none; }
+    .nav-cta:hover { background: rgba(245,240,232,0.08); color: var(--bone); }
+  }
 
   /* Mobile nav */
   .nav-hamburger {
@@ -839,44 +864,6 @@
     .location-name { font-size: 17px; }
   }
 
-  /* ── Why MYPLACE ── */
-  .why-myplace {
-    background: var(--walnut);
-    padding: 140px 60px;
-    display: grid; grid-template-columns: 1fr 1fr;
-    gap: 100px; align-items: start;
-  }
-  .why-left .section-label { color: rgba(245,240,232,0.4); }
-  .why-left .section-label::before { background: rgba(245,240,232,0.4); }
-  .why-headline {
-    font-family: var(--font-serif); font-size: clamp(36px, 4vw, 64px);
-    font-weight: 300; letter-spacing: -0.02em; color: var(--bone); line-height: 1.05;
-  }
-  .why-list { display: flex; flex-direction: column; gap: 0; }
-  .why-item {
-    display: grid; grid-template-columns: 32px 1fr;
-    gap: 20px; padding: 24px 0;
-    border-bottom: 1px solid rgba(245,240,232,0.08);
-    align-items: start;
-    opacity: 0; transform: translateX(20px);
-    transition: opacity 0.5s var(--ease-out), transform 0.5s var(--ease-out);
-  }
-  .why-item.visible { opacity: 1; transform: translateX(0); }
-  .why-check {
-    width: 20px; height: 20px; border: 1px solid rgba(107,101,90,0.5);
-    border-radius: 50%; display: flex; align-items: center; justify-content: center;
-    margin-top: 2px; flex-shrink: 0;
-  }
-  .why-check svg { width: 10px; height: 10px; stroke: var(--olive-light); fill: none; stroke-width: 2; }
-  .why-item-title {
-    font-family: var(--font-sans); font-size: 15px; font-weight: 400;
-    color: var(--bone); margin-bottom: 4px;
-  }
-  .why-item-desc {
-    font-size: 12px; font-weight: 300; line-height: 1.6;
-    color: rgba(245,240,232,0.38);
-  }
-
   /* ── Atelier ── */
   .atelier {
     background: var(--warm-white);
@@ -1277,7 +1264,7 @@
     .hero { padding: 0 40px 72px; }
     .metrics { grid-template-columns: repeat(4, 1fr); padding: 60px 40px; }
     .who-serve, .what-we-do, .platform, .brands, .case-studies,
-    .portfolio, .why-myplace, .atelier, .contact, footer { padding-left: 40px; padding-right: 40px; }
+    .portfolio, .atelier, .contact, footer { padding-left: 40px; padding-right: 40px; }
     .footer-top { grid-template-columns: 1fr 1fr; gap: 48px; }
   }
 
@@ -1309,7 +1296,6 @@
     .case-study-item { grid-template-columns: 1fr; gap: 40px; }
     .portfolio { padding: 100px 28px; }
     .portfolio-inner { grid-template-columns: 1fr; gap: 60px; }
-    .why-myplace { grid-template-columns: 1fr; gap: 60px; padding: 100px 28px; }
     .atelier { padding: 100px 28px; }
     .contact { grid-template-columns: 1fr; gap: 60px; padding: 100px 28px; }
     .footer-top { grid-template-columns: 1fr 1fr; gap: 40px; }

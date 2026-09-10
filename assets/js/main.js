@@ -215,12 +215,6 @@
     revealObserver.observe(el);
   });
 
-  // Why items
-  document.querySelectorAll('.why-item').forEach((el, i) => {
-    el.style.transitionDelay = (i * 0.07) + 's';
-    revealObserver.observe(el);
-  });
-
 
   /* ── Bar animations for case studies ── */
   const barObserver = new IntersectionObserver((entries) => {
