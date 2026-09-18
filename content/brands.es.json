@@ -1,0 +1,26 @@
+[
+  {
+    "id": "myplace",
+    "name": "MYPLACE",
+    "tag": "Rentas Vacacionales de Lujo",
+    "description": "Propiedades premium curadas en los destinos más codiciados de México. Una colección definida por diseño, privacidad y servicio excepcional.",
+    "image": "",
+    "url": "#contact"
+  },
+  {
+    "id": "encuentro",
+    "name": "ENCUENTRO",
+    "tag": "Hospitalidad de Bienestar",
+    "description": "Un concepto de hospitalidad centrado en el bienestar, construido alrededor de entornos naturales, programación consciente y experiencias restaurativas para el huésped.",
+    "image": "",
+    "url": "#contact"
+  },
+  {
+    "id": "casa-filomeno",
+    "name": "CASA FILOMENO",
+    "tag": "Hospitalidad Boutique",
+    "description": "Propiedades boutique con identidad propia y fuerte carácter local — cada una una expresión distinta de lugar y cultura.",
+    "image": "",
+    "url": "#contact"
+  }
+]

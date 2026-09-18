@@ -1,24 +1,27 @@
-[build]
-  command = "npm run build"
-  publish = "."
+# netlify.toml
+#
+# Si ya tenías un netlify.toml en el repo (build command, publish dir,
+# headers, etc.), FUSIONA este contenido con el tuyo — no lo reemplaces
+# a ciegas. Lo único que este archivo necesita aportar es el registro
+# del Edge Function y el fallback de "/".
 
-[build.environment]
-  NODE_VERSION = "20"
+[[edge_functions]]
+  path = "/"
+  function = "geo-lang-redirect"
 
-# Nunca cachear el índice de artículos ni el HTML de cada artículo agresivamente,
-# para que un artículo recién publicado aparezca sin que el navegador sirva
-# una copia vieja desde caché.
-[[headers]]
-  for = "/content/atelier.json"
-  [headers.values]
-    Cache-Control = "public, max-age=0, must-revalidate"
+# Red de seguridad si por lo que sea el Edge Function no llega a correr
+# (p. ej. una preview branch sin edge functions habilitadas todavía):
+# manda a la versión en inglés en vez de a un 404 o a la raíz vacía.
+[[redirects]]
+  from = "/"
+  to = "/en/"
+  status = 302
+  force = false
+  conditions = { Cookie = ["myplace_lang=en"] }
 
-[[headers]]
-  for = "/content/portfolio.json"
-  [headers.values]
-    Cache-Control = "public, max-age=0, must-revalidate"
-
-[[headers]]
-  for = "/atelier/*"
-  [headers.values]
-    Cache-Control = "public, max-age=0, must-revalidate"
+[[redirects]]
+  from = "/"
+  to = "/es/"
+  status = 302
+  force = false
+  conditions = { Cookie = ["myplace_lang=es"] }
