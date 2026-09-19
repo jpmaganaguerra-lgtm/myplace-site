@@ -1,0 +1,26 @@
+[
+  {
+    "id": "thegallery",
+    "name": "The Gallery",
+    "tag": "Condesa Boutique Suites",
+    "description": "Staying at The Gallery means waking up surrounded by culture, walking streets full of life, discovering cafes, galleries and restaurants steps away, and coming home to a quiet place where design and comfort meet.",
+    "image": "assets/brands/thegallery.webp",
+    "url": "https://thegallery.mx"
+  },
+  {
+    "id": "filomeno",
+    "name": "Casa Filomeno",
+    "tag": "Downtown Boutique Suites",
+    "description": "Suites and apartments where the perfect fusion of history and modernity meet in the heart of Mexico City.",
+    "image": "assets/brands/Filo.webp",
+    "url": "https://casafilomeno.com"
+  },
+  {
+    "id": "casa-mexico",
+    "name": "Casa Mexico",
+    "tag": "Zocalo Boutique Suites",
+    "description": "Located in the heart of the Historic Center, Casa Mexico offers one of the most exclusive experiences for those seeking to stay facing the Zocalo. Steps away from the National Palace, the Metropolitan Cathedral, the Templo Mayor and some of Mexico's most important cultural spaces.",
+    "image": "assets/brands/Casa-Mexico.webp",
+    "url": "https://lacasamexico.com"
+  }
+]

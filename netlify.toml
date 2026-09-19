@@ -1,0 +1,24 @@
+# netlify.toml
+[build]
+  command = "npm run build"
+  publish = "."
+
+[[edge_functions]]
+  path = "/"
+  function = "geo-lang-redirect"
+
+# Red de seguridad si el Edge Function no llega a correr todavía
+# (p. ej. una preview branch sin edge functions habilitadas):
+[[redirects]]
+  from = "/"
+  to = "/en/"
+  status = 302
+  force = false
+  conditions = { Cookie = ["myplace_lang=en"] }
+
+[[redirects]]
+  from = "/"
+  to = "/es/"
+  status = 302
+  force = false
+  conditions = { Cookie = ["myplace_lang=es"] }

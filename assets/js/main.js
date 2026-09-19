@@ -1,3 +1,32 @@
+/* ── Idioma actual ── */
+  /* El HTML servido ya viene en el idioma correcto (lo decide el build de
+     i18n en /es/index.html y /en/index.html, o el geo-redirect de Netlify).
+     Este objeto solo cubre los textos que el propio JS genera dinámicamente
+     (marquesinas armadas desde JSON) — todo el resto del copy ya vive en
+     el HTML estático, no aquí. */
+  const LANG = document.documentElement.lang === 'en' ? 'en' : 'es';
+  const UI = {
+    es: { explore: 'Explorar', photoSoon: 'Fotografía próximamente', goTo: (n) => `Ir a ${n}`, dateLocale: 'es-MX' },
+    en: { explore: 'Explore', photoSoon: 'Photography coming soon', goTo: (n) => `Go to ${n}`, dateLocale: 'en-US' },
+  };
+  const T = UI[LANG];
+
+  // Traducción puntual de valores que vienen tal cual de portfolio.json
+  // (categoría y ciudad) — evita duplicar las 69 propiedades en dos
+  // archivos solo por un puñado de etiquetas.
+  const CATEGORY_EN = { 'Departamento': 'Apartment', 'Estudio': 'Studio', 'Suite': 'Suite', 'Garden House': 'Garden House' };
+  const LOCATION_EN = { 'Ciudad de México': 'Mexico City', 'Acapulco': 'Acapulco', 'Huatulco': 'Huatulco', 'San José del Cabo': 'San José del Cabo' };
+  function localizeCategory(v) { return LANG === 'en' ? (CATEGORY_EN[v] || v) : v; }
+  function localizeLocation(v) { return LANG === 'en' ? (LOCATION_EN[v] || v) : v; }
+
+  /* ── Selector de idioma (nav) ── */
+  /* Preserva el ancla actual (#solutions, #contact, etc.) al cambiar de
+     idioma, y refresca la cookie de preferencia que el geo-redirect de
+     Netlify respeta en visitas futuras a "/". */
+  document.querySelectorAll('.lang-switcher-menu a[href^="/"]').forEach((link) => {
+    if (location.hash) link.href = link.getAttribute('href') + location.hash;
+  });
+
 /* ── Hero: marquesina de videos ── */
   /* Rotación automática con crossfade, sin interacción del usuario.
      Cada video avanza al siguiente cuando TERMINA de reproducirse (no en un
@@ -252,7 +281,7 @@
   const atelierGrid = document.getElementById('atelier-grid');
   const atelierEmpty = document.getElementById('atelier-empty');
   if (atelierGrid) {
-    fetch('/content/atelier.json')
+    fetch(`/content/atelier.${LANG}.json`)
       .then(res => (res.ok ? res.json() : []))
       .then(articles => {
         if (!Array.isArray(articles) || articles.length === 0) {
@@ -261,11 +290,11 @@
         }
         const formatDate = (iso) => {
           const d = new Date(iso);
-          return d.toLocaleDateString('es-MX', { day: 'numeric', month: 'long', year: 'numeric' });
+          return d.toLocaleDateString(T.dateLocale, { day: 'numeric', month: 'long', year: 'numeric' });
         };
         articles.slice(0, 3).forEach((article, i) => {
           const card = document.createElement('a');
-          card.href = `/atelier/${article.slug}/`;
+          card.href = `/${LANG}/atelier/${article.slug}/`;
           card.className = 'atelier-card reveal';
           card.style.transitionDelay = (i * 0.08) + 's';
           card.innerHTML = `
@@ -324,19 +353,19 @@
           ? `<img src="${p.image}" alt="${p.imageAlt || p.name}" loading="lazy" width="380" height="507">`
           : `<div class="pf-card-image-pending" role="img" aria-label="${p.imageAlt || p.name}">
                <p class="pf-card-image-pending-mark">${p.name}</p>
-               <p class="pf-card-image-pending-note">Fotografía próximamente</p>
+               <p class="pf-card-image-pending-note">${T.photoSoon}</p>
              </div>`;
         card.innerHTML = `
           <div class="pf-card-image">${imageMarkup}</div>
-          <p class="pf-card-category">${p.category || ''}</p>
+          <p class="pf-card-category">${localizeCategory(p.category || '')}</p>
           <p class="pf-card-name">${p.name}</p>
-          <p class="pf-card-location">${p.location || ''}</p>
+          <p class="pf-card-location">${localizeLocation(p.location || '')}</p>
         `;
         pfTrack.appendChild(card);
 
         const dot = document.createElement('button');
         dot.className = 'pf-dot';
-        dot.setAttribute('aria-label', `Ir a ${p.name}`);
+        dot.setAttribute('aria-label', T.goTo(p.name));
         dot.addEventListener('click', () => {
           card.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
         });
@@ -438,7 +467,7 @@
       'linear-gradient(160deg, #302E2A 0%, #201F1B 40%, #322F2B 100%)',
     ];
 
-    fetch('/content/brands.json')
+    fetch(`/content/brands.${LANG}.json`)
       .then(res => (res.ok ? res.json() : []))
       .then(brands => {
         if (!Array.isArray(brands) || brands.length === 0) return;
@@ -457,14 +486,14 @@
             <div class="bm-card-tag">${b.tag || ''}</div>
             <div class="bm-card-name">${b.name}</div>
             <div class="bm-card-desc">${b.description || ''}</div>
-            <span class="bm-card-cta">Explore</span>
+            <span class="bm-card-cta">${T.explore}</span>
           </div>
         `;
         bmTrack.appendChild(card);
 
         const dot = document.createElement('button');
         dot.className = 'bm-dot';
-        dot.setAttribute('aria-label', `Ir a ${b.name}`);
+        dot.setAttribute('aria-label', T.goTo(b.name));
         dot.addEventListener('click', () => {
           card.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
         });

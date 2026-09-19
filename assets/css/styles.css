@@ -118,6 +118,31 @@
   .nav-dropdown-menu a:hover { color: var(--bone); background: rgba(245,240,232,0.06); }
   .nav-dropdown-menu a::after { content: none; }
 
+  /* Selector de idioma — mismo componente que Portfolio (.nav-item-dropdown),
+     así que clic/Escape/cierre-al-tocar-afuera funcionan gratis en mobile y
+     teclado. Lo único nuevo es la revelación por :hover en dispositivos con
+     mouse, que es lo que pidió el requerimiento ("mouseover" muestra la
+     otra opción) sin duplicar lógica de apertura. */
+  .lang-switcher-trigger {
+    letter-spacing: 0.08em;
+    padding: 8px 2px;
+  }
+  .lang-switcher-menu {
+    min-width: 56px;
+  }
+  .lang-switcher-menu a {
+    padding: 10px 18px;
+    letter-spacing: 0.08em;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .lang-switcher:hover .lang-switcher-menu {
+      opacity: 1; visibility: visible; pointer-events: auto;
+      transform: translateX(-50%) translateY(0);
+    }
+    .lang-switcher:hover .lang-switcher-trigger { color: var(--bone); }
+  }
+  .mobile-menu .lang-switcher-menu { min-width: 0; }
+
   /* Mismo componente dentro del overlay móvil — solo cambia el tamaño de
      tipografía para combinar con el resto de los links del menú móvil.
      El comportamiento (clic para abrir/cerrar) es idéntico al de desktop. */

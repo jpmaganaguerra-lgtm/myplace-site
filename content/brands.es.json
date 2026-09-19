@@ -1,0 +1,26 @@
+[
+  {
+    "id": "thegallery",
+    "name": "The Gallery",
+    "tag": "Condesa Boutique Suites",
+    "description": "Hospedarte en The Gallery significa despertar rodeado de cultura, caminar por calles llenas de vida, descubrir cafés, galerías y restaurantes a pocos pasos, y regresar a un lugar tranquilo donde el diseño y la comodidad se encuentran.",
+    "image": "assets/brands/thegallery.webp",
+    "url": "https://thegallery.mx"
+  },
+  {
+    "id": "filomeno",
+    "name": "Casa Filomeno",
+    "tag": "Downtown Boutique Suites",
+    "description": "Suites y departamentos donde la fusión perfecta de la historia y la modernidad se encuentra en el corazón de la Ciudad de México.",
+    "image": "assets/brands/Filo.webp",
+    "url": "https://casafilomeno.com"
+  },
+  {
+    "id": "casa-mexico",
+    "name": "Casa Mexico",
+    "tag": "Zocalo Boutique Suites",
+    "description": "Ubicado en el corazón del Centro Histórico, Casa México ofrece una de las experiencias más exclusivas para quienes buscan hospedarse frente al Zócalo. A pocos pasos de Palacio Nacional, la Catedral Metropolitana, el Templo Mayor y algunos de los espacios culturales más importantes de México.",
+    "image": "assets/brands/Casa-Mexico.webp",
+    "url": "https://lacasamexico.com"
+  }
+]

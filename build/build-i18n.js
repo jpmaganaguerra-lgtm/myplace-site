@@ -50,13 +50,25 @@ function applyDictionary(html, dict) {
 
 function applyStructuralTokens(html, locale) {
   const other = locale === 'es' ? 'en' : 'es';
-  return html
+  let out = html
     .replace(/\{\{HTML_LANG\}\}/g, locale)
     .replace(/\{\{HREFLANG_TAGS\}\}/g, buildHreflangTags(locale))
     .replace(/\{\{CURRENT_LANG_CODE\}\}/g, LOCALES[locale].code)
     .replace(/\{\{OTHER_LANG_CODE\}\}/g, LOCALES[other].code)
     .replace(/\{\{OTHER_LANG_CODE_LOWER\}\}/g, other)
     .replace(/\{\{OTHER_LANG_URL\}\}/g, `/${other}/`);
+
+  // La página vive un nivel más abajo (/es/ o /en/) que el index.html
+  // original en la raíz — sin este ajuste, cada video, imagen y poster
+  // se rompería (resolvería contra /es/assets/... en vez de /assets/...).
+  out = out.replace(/(?<!\/)assets\//g, '/assets/');
+
+  // Enlaces a otras páginas del sitio (no anclas internas) también deben
+  // apuntar a la versión del mismo idioma.
+  out = out.replace(/href="\/portfolio"/g, `href="/${locale}/portfolio"`);
+  out = out.replace(/href="\/atelier\/"/g, `href="/${locale}/atelier/"`);
+
+  return out;
 }
 
 function main() {

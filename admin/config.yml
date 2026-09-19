@@ -11,10 +11,15 @@ public_folder: "/assets/atelier/uploads"
 publish_mode: simple
 
 collections:
-  - name: "atelier"
-    label: "Atelier"
-    label_singular: "Artículo"
-    folder: "content/atelier"
+  # El sitio es bilingüe: cada idioma tiene su propia colección apuntando a
+  # content/atelier/es y content/atelier/en. Un artículo NO se traduce
+  # automáticamente — publícalo por separado en cada colección con el mismo
+  # "slug" si quieres que exista en los dos idiomas (no es obligatorio: un
+  # artículo puede vivir solo en un idioma si así se decide).
+  - name: "atelier_es"
+    label: "Atelier (Español)"
+    label_singular: "Artículo (ES)"
+    folder: "content/atelier/es"
     create: true
     slug: "{{slug}}"
     identifier_field: "title"
@@ -32,3 +37,24 @@ collections:
       - { label: "Fecha", name: "date", widget: "datetime", format: "YYYY-MM-DD" }
       - { label: "Publicado", name: "published", widget: "boolean", default: false, hint: "Solo los artículos marcados como Publicado aparecen en el sitio" }
       - { label: "Contenido", name: "body", widget: "markdown" }
+  - name: "atelier_en"
+    label: "Atelier (English)"
+    label_singular: "Article (EN)"
+    folder: "content/atelier/en"
+    create: true
+    slug: "{{slug}}"
+    identifier_field: "title"
+    summary: "{{title}} — {{date}}"
+    sortable_fields: ["date", "title"]
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Slug (URL, no spaces or accents)", name: "slug", widget: "string", hint: "E.g. gobierno-de-datos-en-portafolios-hospitality" }
+      - { label: "Cover image", name: "cover", widget: "image", required: false }
+      - { label: "Excerpt (shown on the card)", name: "excerpt", widget: "text" }
+      - label: "Category"
+        name: "tag"
+        widget: "select"
+        options: ["Technology", "Revenue Management", "Asset Conversion", "Operations", "Market", "Institutional"]
+      - { label: "Date", name: "date", widget: "datetime", format: "YYYY-MM-DD" }
+      - { label: "Published", name: "published", widget: "boolean", default: false, hint: "Only articles marked Published appear on the site" }
+      - { label: "Content", name: "body", widget: "markdown" }

@@ -1,11 +1,15 @@
-// Lee content/atelier/*.md, y genera:
-//   1. atelier/{slug}/index.html — la página completa de cada artículo publicado
-//   2. atelier/index.html        — archivo con todos los artículos publicados
-//   3. content/atelier.json      — índice que el home usa para pintar las tarjetas
+// Lee content/atelier/{locale}/*.md, y genera para CADA idioma:
+//   1. {locale}/atelier/{slug}/index.html — la página completa de cada artículo
+//   2. {locale}/atelier/index.html        — archivo con todos los artículos
+//   3. content/atelier.{locale}.json      — índice que el home usa para pintar
+//      las tarjetas (fetch por idioma, ver assets/js/main.js)
 //
-// Se corre con `npm run build` (o `npm run content:build` solo). No requiere
-// ningún backend propio: Decap CMS escribe los .md directo al repositorio, y
-// este script los convierte a HTML en cada build de Netlify.
+// El nav y el footer se extraen del index.html YA TRADUCIDO de ese mismo
+// idioma (/es/index.html o /en/index.html) — así el header/footer de cada
+// artículo queda automáticamente en el idioma correcto, sin duplicar texto
+// a mano en este script.
+//
+// Se corre con `npm run build` (ver package.json), UNA VEZ POR IDIOMA.
 
 import fs from 'node:fs';
 import path from 'node:path';
@@ -15,31 +19,20 @@ import { marked } from 'marked';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
-const CONTENT_DIR = path.join(ROOT, 'content', 'atelier');
-const OUTPUT_DIR = path.join(ROOT, 'atelier');
-const INDEX_HTML = path.join(ROOT, 'index.html');
-const JSON_OUT = path.join(ROOT, 'content', 'atelier.json');
 
-function readIndexHtml() {
-  return fs.readFileSync(INDEX_HTML, 'utf-8');
-}
+const LOCALES = {
+  es: { dateLocale: 'es-MX', backLabel: 'Atelier', allLabel: 'Todos los Artículos', emptyLabel: 'Nuevo contenido próximamente.', metaDesc: 'Perspectiva institucional de MYPLACE sobre hospitalidad, tecnología y desempeño de activos.' },
+  en: { dateLocale: 'en-US', backLabel: 'Atelier', allLabel: 'All Articles', emptyLabel: 'New content coming soon.', metaDesc: "MYPLACE's institutional perspective on hospitality, technology and asset performance." },
+};
 
-// Extrae un bloque de index.html entre un marcador de apertura literal y un
-// tag de cierre, y reescribe rutas relativas y anclas (#seccion) para que
-// funcionen desde /atelier/{slug}/, dos niveles más abajo en el árbol.
-//
-// IMPORTANTE: busca el cierre BALANCEADO del tag, no el primer "</tag>" que
-// aparezca. Antes usaba indexOf ingenuo, que se rompía en cuanto el bloque
-// tenía un tag hijo del mismo tipo anidado adentro (p. ej. el dropdown de
-// Portfolio agregó un <div> dentro de <div class="mobile-menu">, y el primer
-// "</div>" que encontraba era el del hijo, cortando el resto del menú).
+let CURRENT_LOCALE = 'es';
+
 function extractBlock(html, startMarker, endTag) {
   const start = html.indexOf(startMarker);
   if (start === -1) throw new Error(`No encontré el marcador: ${startMarker}`);
 
-  const tagName = endTag.replace(/[</>]/g, ''); // "nav", "div", "footer"...
+  const tagName = endTag.replace(/[</>]/g, '');
   const openRe = new RegExp(`<${tagName}[\\s>]`, 'g');
-  openRe.lastIndex = start;
 
   let depth = 0;
   let cursor = start;
@@ -63,16 +56,17 @@ function extractBlock(html, startMarker, endTag) {
   let block = html.slice(start, end);
   block = block.replace(/(?<!\/)assets\//g, '/assets/');
   block = block.replace(/href="#"/g, 'href="/"');
-  block = block.replace(/href="#(?!")/g, 'href="/#');
+  block = block.replace(/href="#(?!")/g, `href="/${CURRENT_LOCALE}/#`);
   block = block.replace(/onclick="closeMobileMenu\(\)"/g, '');
   return block;
 }
 
-function loadArticles() {
-  if (!fs.existsSync(CONTENT_DIR)) return [];
-  const files = fs.readdirSync(CONTENT_DIR).filter(f => f.endsWith('.md'));
+function loadArticles(locale) {
+  const dir = path.join(ROOT, 'content', 'atelier', locale);
+  if (!fs.existsSync(dir)) return [];
+  const files = fs.readdirSync(dir).filter(f => f.endsWith('.md'));
   const articles = files.map(file => {
-    const raw = fs.readFileSync(path.join(CONTENT_DIR, file), 'utf-8');
+    const raw = fs.readFileSync(path.join(dir, file), 'utf-8');
     const { data, content } = matter(raw);
     return {
       title: data.title || 'Sin título',
@@ -90,14 +84,14 @@ function loadArticles() {
     .sort((a, b) => new Date(b.date) - new Date(a.date));
 }
 
-function formatDateEs(iso) {
+function formatDate(iso, locale) {
   const d = new Date(iso);
-  return d.toLocaleDateString('es-MX', { day: 'numeric', month: 'long', year: 'numeric' });
+  return d.toLocaleDateString(LOCALES[locale].dateLocale, { day: 'numeric', month: 'long', year: 'numeric' });
 }
 
-function pageShell({ headerHtml, footerHtml, title, description, bodyHtml }) {
+function pageShell({ headerHtml, footerHtml, title, description, bodyHtml, locale }) {
   return `<!DOCTYPE html>
-<html lang="es">
+<html lang="${locale}">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -122,23 +116,24 @@ ${footerHtml}
 `;
 }
 
-function renderArticlePage({ headerHtml, footerHtml }, article) {
+function renderArticlePage({ headerHtml, footerHtml }, article, locale) {
   const bodyMarkup = marked.parse(article.bodyMarkdown);
-  const metaLine = `${article.tag} &middot; ${formatDateEs(article.date)}`;
+  const metaLine = `${article.tag} &middot; ${formatDate(article.date, locale)}`;
+  const backHref = `/${locale}/#atelier`;
 
   const topBlock = article.cover
     ? `
 <section class="atelier-article-hero" style="background-image:url('${article.cover}')">
   <div class="atelier-article-hero-overlay"></div>
   <div class="atelier-article-hero-content">
-    <a href="/#atelier" class="atelier-back">&larr; Atelier</a>
+    <a href="${backHref}" class="atelier-back">&larr; ${LOCALES[locale].backLabel}</a>
     <p class="atelier-article-meta">${metaLine}</p>
     <h1 class="atelier-article-title">${article.title}</h1>
   </div>
 </section>`
     : `
 <div class="atelier-article-plain">
-  <a href="/#atelier" class="atelier-back atelier-back-dark">&larr; Atelier</a>
+  <a href="${backHref}" class="atelier-back atelier-back-dark">&larr; ${LOCALES[locale].backLabel}</a>
   <p class="atelier-article-meta atelier-article-meta-dark">${metaLine}</p>
   <h1 class="atelier-article-title atelier-article-title-dark">${article.title}</h1>
 </div>`;
@@ -151,23 +146,18 @@ ${topBlock}
   </div>
 </article>`;
 
-  return pageShell({
-    headerHtml, footerHtml,
-    title: article.title,
-    description: article.excerpt,
-    bodyHtml: body,
-  });
+  return pageShell({ headerHtml, footerHtml, title: article.title, description: article.excerpt, bodyHtml: body, locale });
 }
 
-function renderArchivePage({ headerHtml, footerHtml }, articles) {
+function renderArchivePage({ headerHtml, footerHtml }, articles, locale) {
   const cards = articles.map(a => `
-    <a href="/atelier/${a.slug}/" class="atelier-card visible">
+    <a href="/${locale}/atelier/${a.slug}/" class="atelier-card visible">
       <div class="atelier-card-image">
         <div class="atelier-card-image-bg" style="background-image:url('${a.cover}')"></div>
       </div>
       <p class="atelier-card-tag">${a.tag}</p>
       <p class="atelier-card-title">${a.title}</p>
-      <p class="atelier-card-date">${formatDateEs(a.date)}</p>
+      <p class="atelier-card-date">${formatDate(a.date, locale)}</p>
     </a>`).join('\n');
 
   const body = `
@@ -175,49 +165,54 @@ function renderArchivePage({ headerHtml, footerHtml }, articles) {
   <div class="atelier-header">
     <div>
       <div class="section-label">Atelier</div>
-      <h2 class="atelier-headline">Todos los Artículos</h2>
+      <h2 class="atelier-headline">${LOCALES[locale].allLabel}</h2>
     </div>
   </div>
   <div class="atelier-grid">
-    ${cards || '<p class="atelier-empty">Nuevo contenido próximamente.</p>'}
+    ${cards || `<p class="atelier-empty">${LOCALES[locale].emptyLabel}</p>`}
   </div>
 </section>`;
 
-  return pageShell({
-    headerHtml, footerHtml,
-    title: 'Atelier',
-    description: 'Perspectiva institucional de MYPLACE sobre hospitalidad, tecnología y desempeño de activos.',
-    bodyHtml: body,
-  });
+  return pageShell({ headerHtml, footerHtml, title: 'Atelier', description: LOCALES[locale].metaDesc, bodyHtml: body, locale });
 }
 
-function main() {
-  const html = readIndexHtml();
+function buildLocale(locale) {
+  CURRENT_LOCALE = locale;
+  const homePath = path.join(ROOT, locale, 'index.html');
+  if (!fs.existsSync(homePath)) {
+    throw new Error(`No existe ${locale}/index.html todavía — corre build-i18n.js primero.`);
+  }
+  const html = fs.readFileSync(homePath, 'utf-8');
   const navHtml = extractBlock(html, '<nav id="main-nav">', '</nav>');
   const mobileMenuHtml = extractBlock(html, '<div class="mobile-menu" id="mobile-menu">', '</div>');
   const headerHtml = `${navHtml}\n\n${mobileMenuHtml}`;
   const footerHtml = extractBlock(html, '<footer>', '</footer>');
 
-  const articles = loadArticles();
+  const articles = loadArticles(locale);
 
+  const OUTPUT_DIR = path.join(ROOT, locale, 'atelier');
   fs.rmSync(OUTPUT_DIR, { recursive: true, force: true });
   fs.mkdirSync(OUTPUT_DIR, { recursive: true });
 
   for (const article of articles) {
     const outDir = path.join(OUTPUT_DIR, article.slug);
     fs.mkdirSync(outDir, { recursive: true });
-    const pageHtml = renderArticlePage({ headerHtml, footerHtml }, article);
+    const pageHtml = renderArticlePage({ headerHtml, footerHtml }, article, locale);
     fs.writeFileSync(path.join(outDir, 'index.html'), pageHtml, 'utf-8');
   }
 
-  const archiveHtml = renderArchivePage({ headerHtml, footerHtml }, articles);
+  const archiveHtml = renderArchivePage({ headerHtml, footerHtml }, articles, locale);
   fs.writeFileSync(path.join(OUTPUT_DIR, 'index.html'), archiveHtml, 'utf-8');
 
   const jsonIndex = articles.map(({ bodyMarkdown, ...rest }) => rest);
-  fs.mkdirSync(path.dirname(JSON_OUT), { recursive: true });
-  fs.writeFileSync(JSON_OUT, JSON.stringify(jsonIndex, null, 2), 'utf-8');
+  const jsonOut = path.join(ROOT, 'content', `atelier.${locale}.json`);
+  fs.writeFileSync(jsonOut, JSON.stringify(jsonIndex, null, 2), 'utf-8');
 
-  console.log(`✓ ${articles.length} artículo(s) publicados → atelier/*/index.html + atelier/index.html + content/atelier.json`);
+  console.log(`✓ [${locale}] ${articles.length} artículo(s) → ${locale}/atelier/*/index.html + ${locale}/atelier/index.html + content/atelier.${locale}.json`);
+}
+
+function main() {
+  for (const locale of Object.keys(LOCALES)) buildLocale(locale);
 }
 
 main();

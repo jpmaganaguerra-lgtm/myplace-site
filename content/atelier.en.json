@@ -1,0 +1,29 @@
+[
+  {
+    "title": "Data Governance in Multi-Asset Hospitality Portfolios",
+    "slug": "gobierno-de-datos-en-portafolios-hospitality",
+    "cover": "",
+    "excerpt": "Why most hotel portfolios don't have a technology problem — they have a data governance problem — and what changes once they actually have one.",
+    "tag": "Technology",
+    "date": "2026-08-10T00:00:00.000Z",
+    "published": true
+  },
+  {
+    "title": "Institutional Revenue Management vs. the Artisanal Model",
+    "slug": "revenue-management-institucional-vs-artesanal",
+    "cover": "",
+    "excerpt": "The difference between adjusting rates by gut feeling and running a real revenue management system — and why that difference shows up first in NOI.",
+    "tag": "Revenue Management",
+    "date": "2026-08-03T00:00:00.000Z",
+    "published": true
+  },
+  {
+    "title": "What Determines Whether a Residential Building Is Viable as a Hospitality Asset",
+    "slug": "conversion-de-edificios-residenciales-a-hospitalidad",
+    "cover": "",
+    "excerpt": "Not every residential property is a candidate to become a profitable hospitality asset. These are the variables that actually decide viability.",
+    "tag": "Asset Conversion",
+    "date": "2026-07-27T00:00:00.000Z",
+    "published": true
+  }
+]
