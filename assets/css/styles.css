@@ -287,6 +287,14 @@
     line-height: 0.95; letter-spacing: -0.02em;
     color: var(--bone); margin-bottom: 32px;
   }
+  /* El texto en español corre ~20% más largo que en inglés para este
+     titular ("Transformamos Bienes Raíces...") y con el mismo tamaño
+     desborda el layout del hero. Se reduce SOLO para la versión en
+     español (detectado por <html lang="es">, que pone el build de i18n),
+     el inglés no se toca. */
+  html[lang="es"] .hero-title {
+    font-size: clamp(41.6px, 5.6vw, 89.6px);
+  }
   .hero-title em { font-style: italic; color: var(--sand); }
   .hero-subtitle {
     font-family: var(--font-sans); font-size: clamp(14px, 1.4vw, 17px);
